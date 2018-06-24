@@ -7,8 +7,15 @@ namespace InfomsWeb.Models
 {
     public class RPSRole
     {
+        public RPSRole()
+        {            
+            Modules = new List<RPSModule>();
+            Modules.Add(RPSModule.GetModule());
+        }
+
         public int ID { get; set; }
         public string Name { get; set; }
+        public List<RPSModule> Modules { get; set; }
 
         public static List<RPSRole> GetRoles()
         {

@@ -1,0 +1,17 @@
+﻿@model IEnumerable<InfomsWeb.Models.RPSModule>
+
+<ul class="list-group">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item">
+            <span style="margin-right:5px;">@item.Name</span>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            @if (item.SubModules.Count > 0)
+            {
+                Html.RenderPartial("_SubModules", item.SubModules);
+            }
+        </li>
+    }
+</ul>

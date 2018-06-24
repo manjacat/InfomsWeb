@@ -16,7 +16,7 @@ namespace InfomsWeb.Security
             switch (username)
             {
                 case ("admin"):
-                    roles = new string[] { "admin", "manager", "user" };
+                    roles = new string[] { "admin", "manager", "user" }; 
                     break;
                 case ("darrel"):
                     roles = new string[] { "manager", "user" };
