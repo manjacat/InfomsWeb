@@ -5,30 +5,36 @@ using System.Web;
 
 namespace InfomsWeb.Models
 {
-    public class RPSRole
+    public class RoleRPS
     {
+        public RoleRPS()
+        {
+            Modules = ModuleRPS.BuildTree();
+        }
+
         public int ID { get; set; }
         public string Name { get; set; }
+        public ModuleRPS Modules { get; set; }
 
-        public static List<RPSRole> GetRoles()
+        public static List<RoleRPS> GetRoles()
         {
-            List<RPSRole> roles = new List<RPSRole>();
-            RPSRole r1 = new RPSRole
+            List<RoleRPS> roles = new List<RoleRPS>();
+            RoleRPS r1 = new RoleRPS
             {
                 ID = 1,
                 Name = "admin"
             };
-            RPSRole r2 = new RPSRole
+            RoleRPS r2 = new RoleRPS
             {
                 ID = 2,
                 Name = "manager"
             };
-            RPSRole r3 = new RPSRole
+            RoleRPS r3 = new RoleRPS
             {
                 ID = 3,
                 Name = "database_admin"
             };
-            RPSRole r4 = new RPSRole
+            RoleRPS r4 = new RoleRPS
             {
                 ID = 4,
                 Name = "helpdesk"

@@ -20,7 +20,7 @@ namespace InfomsWeb.Controllers
 
         private ActionResult TestJson()
         {
-            List<RPSRole> roles = RPSRole.GetRoles();
+            List<RoleRPS> roles = RoleRPS.GetRoles();
             return Json(roles, JsonRequestBehavior.AllowGet);
         }
 
@@ -29,7 +29,7 @@ namespace InfomsWeb.Controllers
         public ActionResult Index()
         {
             return new EmptyResult();
-        }       
+        }
 
         //test roles : only admin can access this page
         [Authorize(Roles = "admin")]
@@ -62,14 +62,15 @@ namespace InfomsWeb.Controllers
 
         public ActionResult Welcome()
         {
-            RPSRole role = new RPSRole { ID = 1, Name = User.Identity.Name };
+            string user = User.Identity.Name;
+            RoleRPS role = new RoleRPS { ID = 1, Name = "database_admin" };
             return Json(role, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LogOut(string StaffNo)
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home" , new { msg = "Logoff" });
+            return RedirectToAction("Index", "Home", new { msg = "Logoff" });
         }
     }
 }
