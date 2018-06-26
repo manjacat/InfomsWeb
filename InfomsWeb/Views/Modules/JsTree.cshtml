@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "JsTree";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Display Navigation Using JsTree</h2>
+<div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Navigation
+        </div>
+        <div class="panel-body">
+            <div id="html1">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            $('#html1').jstree({
+                'core': {
+                    'data': {
+                        'url': '/Modules/Nodes',
+                        'data': function (node) {
+                            return { 'id': node.id };
+                        }
+                    }
+                }
+            });
+
+
+            $('#html1').on('changed.jstree', function (e, data) {
+                var i, j, r = [];
+                for (i = 0, j = data.selected.length; i < j; i++) {
+                    r.push(data.instance.get_node(data.selected[i]).text);
+                }
+                alert('Selected: ' + r.join(', '));
+                // $('#event_result').html('Selected: ' + r.join(', '));
+            }).jstree();
+        });
+    </script>
+}

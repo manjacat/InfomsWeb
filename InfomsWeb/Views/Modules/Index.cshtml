@@ -1,0 +1,13 @@
+﻿@model InfomsWeb.Models.ModuleRPS
+
+@{
+    ViewBag.Title = "Modules";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Modules</h2>
+
+@if (Model.Child.Count() > 0)
+{
+    Html.RenderPartial("_SubModules", Model.Child);
+}

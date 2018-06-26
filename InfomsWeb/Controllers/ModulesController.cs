@@ -13,7 +13,25 @@ namespace InfomsWeb.Controllers
         public ActionResult Index()
         {
             ModuleRPS modules = ModuleRPS.BuildTree();
+            return View(modules);
+        }
+
+        public ActionResult JsTree()
+        {
+            return View();
+        }
+
+        public ActionResult GetJson()
+        {
+            ModuleRPS modules = ModuleRPS.BuildTree();
             return Json(modules, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Nodes()
+        {
+            var nodes = new List<JsTreeModel>();
+            nodes = JsTreeModel.BuildTree();
+            return Json(nodes, JsonRequestBehavior.AllowGet);
         }
     }
 }

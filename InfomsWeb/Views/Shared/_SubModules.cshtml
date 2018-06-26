@@ -1,0 +1,19 @@
+﻿@model IEnumerable<InfomsWeb.Models.ModuleRPS>
+
+<ul class="list-group">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item">
+            <a href="@item.Url">
+                <span style="margin-right:5px;">@item.Name</span>
+            </a>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Name }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Name }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Name })
+            @if (item.Child.Count() > 0)
+            {
+                Html.RenderPartial("_SubModules", item.Child);
+            }
+        </li>
+    }
+</ul>

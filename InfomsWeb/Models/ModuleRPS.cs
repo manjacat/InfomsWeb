@@ -8,14 +8,17 @@ namespace InfomsWeb.Models
     [Serializable]
     public class ModuleRPS
     {
-        public ModuleRPS(string name, Uri url, int order = 1)
+        public ModuleRPS(string name, Uri url, int Id, int order = 1)
         {
+            ID = Id;
             Name = name;
             Url = url;
             Order = order;
         }
 
         private readonly SortedList<int, ModuleRPS> childrens = new SortedList<int, ModuleRPS>();
+
+        public int ID { get; }
 
         public string Name { get; }
 
@@ -33,13 +36,11 @@ namespace InfomsWeb.Models
         private static ModuleRPS BuildTree(IEnumerable<ModuleRPSTable> results)
         {
             // collect nodes
-
             var nodes = results.ToDictionary(k => k.ID,
-                v => new ModuleRPS(v.Name, new Uri(v.LinkURL, UriKind.Relative), v.SortId));
+                v => new ModuleRPS(v.Name, new Uri(v.LinkURL, UriKind.Relative), v.ID, v.SortId));
 
             // build tree
-
-            var root = new ModuleRPS("root", new Uri("#", UriKind.Relative));
+            var root = new ModuleRPS("root", new Uri("#", UriKind.Relative), 0);
 
             foreach (var result in results)
             {

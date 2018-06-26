@@ -25,7 +25,11 @@ namespace InfomsWeb
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/jstree/style.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jstree").Include(
+                "~/Scripts/jstree/jstree.js"));
         }
     }
 }
