@@ -216,4 +216,5 @@ FakesAssemblies/
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
 
+InfomsWeb/logs/
 InfomsWeb/InfomsWeb\.csproj
