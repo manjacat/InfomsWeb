@@ -1,0 +1,34 @@
+﻿@model InfomsWeb.Models.ModuleTree
+
+@{
+    ViewBag.Title = "ModuleEditor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ModuleEditor</h2>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Html.ActionLink("Home", "Index", "Home")</li>
+        <li class="breadcrumb-item">@Html.ActionLink("Roles", "Index", "Role")</li>
+        <li class="breadcrumb-item active" aria-current="page">Module Editor</li>
+    </ol>
+</nav>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <span>Role Name:</span>
+        <span class="text-primary">@Html.Action("GetRoleName", "Role", new { id = Request.QueryString["id"] })</span>
+    </div>
+    <div class="form-group">
+        @if (Model.Child.Count() > 0)
+        {
+        Html.RenderPartial("_SubModuleCheckBox", Model.Child);
+        }
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save Changes" class="btn btn-default" />
+        </div>
+    </div>
+}

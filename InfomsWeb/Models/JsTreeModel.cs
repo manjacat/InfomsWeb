@@ -20,10 +20,10 @@ namespace InfomsWeb.Models
 
         public static List<JsTreeModel> BuildTree()
         {
-            return BuildTree(ModuleRPSTable.GetListFromDataTable());
+            return BuildTree(ModuleRPS.GetListFromDataTable());
         }
 
-        private static List<JsTreeModel> BuildTree(IEnumerable<ModuleRPSTable> results)
+        private static List<JsTreeModel> BuildTree(IEnumerable<ModuleRPS> results)
         {
             List<JsTreeModel> output = new List<Models.JsTreeModel>();
 

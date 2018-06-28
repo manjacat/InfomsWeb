@@ -1,0 +1,15 @@
+﻿@model IEnumerable<InfomsWeb.Models.ModuleTree>
+
+<ul class="list-group">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item">
+            @Html.CheckBox("IsChecked")
+            <span style="margin-right:5px;">@item.Name</span>            
+            @if (item.Child.Count() > 0)
+            {
+                Html.RenderPartial("_SubModuleCheckBox", item.Child);
+            }
+        </li>
+    }
+</ul>

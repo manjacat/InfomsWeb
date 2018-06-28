@@ -1,0 +1,16 @@
+﻿@model IEnumerable<InfomsWeb.Models.ModuleTree>
+
+<ul class="list-group">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item">
+            <span style="margin-right:5px;">@item.Name</span>
+            @Html.ActionLink("Edit", "Edit","Module", new { id = item.ID }, null) |
+            @Html.ActionLink("Details", "Details", "Module", new { id = item.ID }, null) 
+            @if (item.Child.Count() > 0)
+            {
+                Html.RenderPartial("_SubModule", item.Child);
+            }
+        </li>
+    }
+</ul>

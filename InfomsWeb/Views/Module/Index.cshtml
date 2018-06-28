@@ -1,0 +1,21 @@
+﻿@model InfomsWeb.Models.ModuleTree
+
+@{
+    ViewBag.Title = "Modules";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Modules</h2>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Html.ActionLink("Home", "Index", "Home")</li>
+        <li class="breadcrumb-item active">Modules</li>
+    </ol>
+</nav>
+<div>
+    <span class="text-success">@ViewBag.Message</span>
+</div>
+@if (Model.Child.Count() > 0)
+{
+    Html.RenderPartial("_SubModule", Model.Child);
+}

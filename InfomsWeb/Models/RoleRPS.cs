@@ -9,42 +9,39 @@ namespace InfomsWeb.Models
     {
         public RoleRPS()
         {
-            Modules = ModuleRPS.BuildTree();
+            Modules = ModuleTree.BuildTree();
         }
 
         public int ID { get; set; }
         public string Name { get; set; }
-        public ModuleRPS Modules { get; set; }
+        public ModuleTree Modules { get; set; }
 
         public static List<RoleRPS> GetRoles()
         {
             List<RoleRPS> roles = new List<RoleRPS>();
-            RoleRPS r1 = new RoleRPS
+            for (int i = 0; i < 5; i++)
             {
-                ID = 1,
+                RoleRPS r1 = GetRole(i);
+                roles.Add(r1);
+            }
+
+            return roles;
+        }
+
+        public static RoleRPS GetRole(int id)
+        {
+            RoleRPS role = new RoleRPS
+            {
+                ID = id,
                 Name = "admin"
             };
-            RoleRPS r2 = new RoleRPS
-            {
-                ID = 2,
-                Name = "manager"
-            };
-            RoleRPS r3 = new RoleRPS
-            {
-                ID = 3,
-                Name = "database_admin"
-            };
-            RoleRPS r4 = new RoleRPS
-            {
-                ID = 4,
-                Name = "helpdesk"
-            };
+            return role;
+        }
 
-            roles.Add(r1);
-            roles.Add(r2);
-            roles.Add(r3);
-            roles.Add(r4);
-            return roles;
+        public int Save()
+        {
+            //TODO
+            return 0;
         }
     }
 }
