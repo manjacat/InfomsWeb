@@ -55,11 +55,26 @@ namespace InfomsWeb.Controllers
             return RedirectToAction("Index", new { msg = "Created role successfully." });
         }
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id, string parentId)
         {
             int idNo = Convert.ToInt32(id);
-            ModuleRPS role = ModuleRPS.GetModule(idNo);
-            return View(role);
+            ModuleRPS module = ModuleRPS.GetModule(idNo);
+            if (!string.IsNullOrEmpty(parentId))
+            {
+                module.ParentId = Convert.ToInt32(parentId);
+                module.SortId = 0;
+            }
+            ViewBag.ParentList = module.GetParentDropdown();
+            ViewBag.SortList = module.GetSortDropdown();
+            return View(module);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Filter(ModuleRPS module)
+        {
+            ViewBag.Message = "Updating Parent/Child Pages";
+            return RedirectToAction("Edit", new { id = module.ID, parentId = module.ParentId });
         }
 
         [HttpPost]
@@ -69,8 +84,11 @@ namespace InfomsWeb.Controllers
             if (ModelState.IsValid)
             {
                 //Save changes
+                ViewBag.Message = "Saved Successfully";
                 module.Save();
             }
+            ViewBag.ParentList = module.GetParentDropdown();
+            ViewBag.SortList = module.GetSortDropdown();
             return View(module);
         }
     }
