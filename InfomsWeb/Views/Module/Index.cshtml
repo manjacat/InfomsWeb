@@ -4,11 +4,9 @@
     ViewBag.Title = "Modules";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Modules</h2>
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">@Html.ActionLink("Home", "Index", "Home")</li>
+    <ol class="breadcrumb bg-info">
+        <li class="breadcrumb-item">@Html.ActionLink("Home", "Index", "Home", new { @class = "text-light" })</li>
         <li class="breadcrumb-item active">Modules</li>
     </ol>
 </nav>

@@ -91,6 +91,10 @@ namespace InfomsWeb.Models
         public SelectList GetParentDropdown()
         {
             List<ModuleRPS> moduleList = ModuleRPS.GetListFromDataTable().ToList();
+            //remove self from list of dropdown 
+            //(prevent selecting self as parent)
+            moduleList.Remove(this);
+
             List<SelectListItem> list = moduleList.Select(
                 x => new SelectListItem
                 {
@@ -99,7 +103,7 @@ namespace InfomsWeb.Models
                     Selected = x.ParentId == ParentId ? true : false
                 }
             ).ToList();
-            list.Insert(0, new SelectListItem { Text = "No Parent", Value = "0" });
+            list.Insert(0, new SelectListItem { Text = "Root", Value = "0" });
             SelectList parentList = new SelectList(list, "Value", "Text");
             return parentList;
         }
@@ -114,13 +118,13 @@ namespace InfomsWeb.Models
             List<SelectListItem> list = moduleList.Select(
                 x => new SelectListItem
                 {
-                    Text = string.Format("{0} ({1})", x.Name, x.SortId),
+                    Text = Name == x.Name ? string.Format("Current ({0})", x.SortId) : string.Format("{0} ({1})", x.Name, x.SortId),
                     Value = x.SortId.ToString(),
                     Selected = x.SortId == SortId ? true : false
                 }
             ).ToList();
             list = list.OrderBy(x => x.Value).ToList();
-            list.Insert(list.Count, new SelectListItem { Text = "Most bottom", Value = (list.Count + 1).ToString() });
+            list.Insert(list.Count, new SelectListItem { Text = string.Format("New ({0})", list.Count + 1), Value = (list.Count + 1).ToString() });
 
             SelectList parentList = new SelectList(list, "Value", "Text");
             return parentList;
@@ -132,11 +136,11 @@ namespace InfomsWeb.Models
             SelectList oldSort = GetSortDropdown();
             List<SelectListItem> newList = new List<SelectListItem>();
             //then loop
-            foreach(var x in oldSort)
+            foreach (var x in oldSort)
             {
                 SelectListItem li = x;
                 int oldVal = Convert.ToInt32(x.Value);
-                if ( oldVal >= newSortId)
+                if (oldVal >= newSortId)
                 {
                     int newVal = oldVal + oldVal - newSortId;
                     li.Value = newVal.ToString();

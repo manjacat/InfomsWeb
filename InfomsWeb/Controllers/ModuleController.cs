@@ -52,13 +52,21 @@ namespace InfomsWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ModuleTree role)
         {
-            return RedirectToAction("Index", new { msg = "Created role successfully." });
+            return RedirectToAction("Index", new { msg = "Created module successfully." });
         }
 
         public ActionResult Edit(string id, string parentId)
         {
+            //kalau takda id, redirect ke index
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index");
+            }
             int idNo = Convert.ToInt32(id);
             ModuleRPS module = ModuleRPS.GetModule(idNo);
+
+            //kalau ada parentId dlm querystring, 
+            //filter sortId kepada subMenu dlm parent
             if (!string.IsNullOrEmpty(parentId))
             {
                 module.ParentId = Convert.ToInt32(parentId);
