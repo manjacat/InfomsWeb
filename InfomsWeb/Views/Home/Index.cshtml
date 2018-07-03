@@ -1,7 +1,69 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_LoginView.cshtml";
 }
 
-<div>
-    Hello World!
+
+<div class="login-form">
+    @using (Html.BeginForm())
+    {
+        <h5>Hey.. It's good to see you back.</h5>
+        <h2>Sign In</h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                </div>
+                @Html.TextBox("LoginName", null, new { @class = "form-control", @placeholder = "Login Name" })
+                @*@Html.ValidationMessage("LoginName", " *", new { @class = "text-danger" })*@
+                @*@Html.Editor(model => model.LoginName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Login Name" } })
+                    @Html.ValidationMessageFor(model => model.LoginName, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                </div>
+                @Html.Password("Password", null, new { @class = "form-control", @placeholder = "Password" })
+                @*@Html.ValidationMessage("Password", " *", new { @class = "text-danger" })*@
+                @*@Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        @*@Html.HiddenFor(model => model.IsDefault)
+            @Html.HiddenFor(model => model.IsActive)*@
+
+        <div class="form-group">
+            <input type="submit" value="Login" onclick="validateBox1" class="btn btn-default" />
+            @*<div class="clearfix">
+                    <label class="pull-left checkbox-inline">@Html.CheckBox("RememberMe", false) Remember me</label>
+                    <a href="#" class="pull-right">Forgot Password?</a>
+                </div>*@
+            <div class="form-check pull-left">
+                @Html.CheckBox("RememberMe", false, new { @class = "form-check-input" })
+                @Html.Label("RememberLabel", "Remember Me", new { @class = "form-check-label" })
+                @*<a href="#" class="pull-right">Forgot Password?</a>*@
+            </div>
+            <a href="#" class="pull-right">Forgot Password?</a>
+        </div>
+
+        
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="pull-left">
+                    <div class="checkbox checkbox-inline">
+                        @Html.EditorFor(model => model.RememberMe)
+                        @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <a href="#" class="pull-right">Forgot Password?</a>
+            </div>*@
+
+    }
 </div>
