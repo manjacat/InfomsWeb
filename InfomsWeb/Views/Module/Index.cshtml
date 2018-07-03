@@ -10,10 +10,24 @@
         <li class="breadcrumb-item active">Modules</li>
     </ol>
 </nav>
-<div>
-    <span class="text-success">@ViewBag.Message</span>
+<div class="row">
+    <div class="mx-auto col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">@ViewBag.Title</h4>
+            </div>
+            <div class="card-body">
+                <div>
+                    <span class="text-success">@ViewBag.Message</span>
+                </div>
+                <div>
+                    @if (Model.Child.Count() > 0)
+                    {
+                        Html.RenderPartial("_SubModule", Model.Child);
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-@if (Model.Child.Count() > 0)
-{
-    Html.RenderPartial("_SubModule", Model.Child);
-}
+

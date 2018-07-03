@@ -29,6 +29,7 @@ namespace InfomsWeb
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-grid.css",
                       "~/Content/jstree/style.css",
                       "~/Content/site.css"));
 

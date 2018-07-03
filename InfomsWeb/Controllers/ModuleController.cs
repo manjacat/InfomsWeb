@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace InfomsWeb.Controllers
 {
-    public class ModuleController : Controller
+    public class ModuleController : BaseController
     {
         // GET: Module
         #region ModuleTree
@@ -69,8 +69,15 @@ namespace InfomsWeb.Controllers
             //filter sortId kepada subMenu dlm parent
             if (!string.IsNullOrEmpty(parentId))
             {
-                module.ParentId = Convert.ToInt32(parentId);
-                module.SortId = 0;
+                try
+                {
+                    module.ParentId = Convert.ToInt32(parentId);
+                    module.SortId = 0;
+                }
+                catch(Exception ex)
+                {
+                    string abc = ex.Message;
+                }
             }
             ViewBag.ParentList = module.GetParentDropdown();
             ViewBag.SortList = module.GetSortDropdown();

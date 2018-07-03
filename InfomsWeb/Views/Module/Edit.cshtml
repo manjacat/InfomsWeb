@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Edit Module";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb bg-info">
@@ -11,67 +12,74 @@
         <li class="breadcrumb-item active" aria-current="page">Edit</li>
     </ol>
 </nav>
-@using (Html.BeginForm("Filter", "Module", FormMethod.Post, new { @class = "form-center" }))
-{
-    @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <span class="text-success">@ViewBag.Message</span>
-        @Html.HiddenFor(model => model.ID)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+<div class="row">
+    <div class="mx-auto col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">@ViewBag.Title</h4>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("Filter", "Module", FormMethod.Post, new { @class = "form", role = "form", autocomplete = "off" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <span class="text-success">@ViewBag.Message</span>
+                    <div class="form-group row">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.ID)
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = ViewBag.Labelcss })
+                        <div class="col-lg-9">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.ParentId, htmlAttributes: new { @class = ViewBag.Labelcss })
+                        <div class="col-lg-9">
+                            @Html.DropDownListFor(model => model.ParentId, ViewBag.ParentList as SelectList, "Select item",
+                                 new { @class = "form-control", size = "0", onchange = "javascript:this.form.submit()" })
+                            @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.SortId, htmlAttributes: new { @class = ViewBag.Labelcss })
+                        <div class="col-lg-9">
+                            @Html.DropDownListFor(model => model.SortId, ViewBag.SortList as SelectList, "Select item",
+                                  new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SortId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = ViewBag.Labelcss })
+                        <div class="col-lg-9">
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        @Html.LabelFor(model => model.LinkURL, htmlAttributes: new { @class = ViewBag.Labelcss })
+                        <div class="col-lg-9">
+                            @Html.EditorFor(model => model.LinkURL, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LinkURL, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                        <div class="col-lg-9">
+                            @Html.ActionLink("Cancel", "Index", null, new { htmlattributes = new { @class = "btn btn-secondary" } }) |
+                            <input type="submit" value="Save Changes" class="btn btn-primary" formaction="~/Module/Edit/" formmethod="post" />
+                        </div>
+                    </div>
+                }
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ParentId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ParentId, ViewBag.ParentList as SelectList, "Select item",
-            new { @class = "form-control", onchange = "javascript:this.form.submit()" })
-                @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SortId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SortId, ViewBag.SortList as SelectList, "Select item",
-            new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.SortId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LinkURL, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LinkURL, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LinkURL, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary" formaction="~/Module/Edit/" formmethod="post" />
-            </div>
-        </div>
+        <!-- /form user info -->
     </div>
-}
+</div>
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+
 </div>
 
 @section scripts{

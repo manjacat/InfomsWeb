@@ -17,6 +17,8 @@ namespace InfomsWeb.Models
         }
 
         public int ID { get; set; }
+
+        [Display(Name = "Module Name")]
         public string Name { get; set; }
         public string Description { get; set; }
         [Display(Name = "Link Url")]
@@ -88,12 +90,27 @@ namespace InfomsWeb.Models
             return tempList;
         }
 
+        private List<ModuleRPS> RemoveFromList(List<ModuleRPS> modules)
+        {
+            foreach (ModuleRPS mod in modules)
+            {
+                if (mod.ID == ID)
+                {
+                    modules.Remove(mod);
+                    //exit the loop
+                    return modules;
+                }
+            }
+            return modules;
+        }
+
+
         public SelectList GetParentDropdown()
         {
             List<ModuleRPS> moduleList = ModuleRPS.GetListFromDataTable().ToList();
             //remove self from list of dropdown 
             //(prevent selecting self as parent)
-            moduleList.Remove(this);
+            moduleList = RemoveFromList(moduleList);
 
             List<SelectListItem> list = moduleList.Select(
                 x => new SelectListItem
