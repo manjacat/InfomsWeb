@@ -1,0 +1,69 @@
+﻿@*<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Infoms", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("Roles", "Index", "Role")</li>
+                <li>@Html.ActionLink("Modules", "Index", "Module")</li>
+            </ul>
+        </div>
+    </div>
+</div>*@
+
+<!-- Image and text -->
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+        <img src="~/Images/DesignLogo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        Bootstrap
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-item nav-link" })
+            </li>
+            <li class="nav-item">
+                @{
+                    if (Request.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Roles", "Index", "Role", null, new { @class = "nav-item nav-link" })
+                    }
+                }
+                
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Modules", "Index", "Module", null, new { @class = "nav-item nav-link" })
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            @*<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+            @Html.ActionLink("Login", "Login", "Home", null, new { @class = "btn btn-outline-success my-2 my-sm-0" })*@
+
+            @{
+                if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("Logout", "MyAccount", FormMethod.Post, new { id = "logoutForm" }))
+                    {
+                        <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                    }
+                }
+                else
+                {
+                    @Html.ActionLink("Login", "Login", "MyAccount", null, new { @class = "btn btn-outline-success my-2 my-sm-0" })
+                }
+            }
+        </form>
+    </div>
+</nav>
