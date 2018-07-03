@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace InfomsWeb.Controllers
 {
-    public class ModuleController : Controller
+    public class ModuleController : BaseController
     {
         // GET: Module
         #region ModuleTree
@@ -52,14 +52,44 @@ namespace InfomsWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(ModuleTree role)
         {
-            return RedirectToAction("Index", new { msg = "Created role successfully." });
+            return RedirectToAction("Index", new { msg = "Created module successfully." });
         }
 
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id, string parentId)
         {
+            //kalau takda id, redirect ke index
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index");
+            }
             int idNo = Convert.ToInt32(id);
-            ModuleRPS role = ModuleRPS.GetModule(idNo);
-            return View(role);
+            ModuleRPS module = ModuleRPS.GetModule(idNo);
+
+            //kalau ada parentId dlm querystring, 
+            //filter sortId kepada subMenu dlm parent
+            if (!string.IsNullOrEmpty(parentId))
+            {
+                try
+                {
+                    module.ParentId = Convert.ToInt32(parentId);
+                    module.SortId = 0;
+                }
+                catch(Exception ex)
+                {
+                    string abc = ex.Message;
+                }
+            }
+            ViewBag.ParentList = module.GetParentDropdown();
+            ViewBag.SortList = module.GetSortDropdown();
+            return View(module);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Filter(ModuleRPS module)
+        {
+            ViewBag.Message = "Updating Parent/Child Pages";
+            return RedirectToAction("Edit", new { id = module.ID, parentId = module.ParentId });
         }
 
         [HttpPost]
@@ -69,8 +99,11 @@ namespace InfomsWeb.Controllers
             if (ModelState.IsValid)
             {
                 //Save changes
+                ViewBag.Message = "Saved Successfully";
                 module.Save();
             }
+            ViewBag.ParentList = module.GetParentDropdown();
+            ViewBag.SortList = module.GetSortDropdown();
             return View(module);
         }
     }

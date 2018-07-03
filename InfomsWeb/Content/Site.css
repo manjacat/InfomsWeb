@@ -17,9 +17,13 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,
 select,
 textarea {
-    /*width: 280px;*/
     width: 100%;
+}*/
+
+
+.divresize {
+    max-width: 300px;
 }

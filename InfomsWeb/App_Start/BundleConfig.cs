@@ -23,8 +23,13 @@ namespace InfomsWeb
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/customjs").Include(
+                      "~/Scripts/multiselect/multiselect.js",
+                      "~/Scripts/autosize/autosize.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-grid.css",
                       "~/Content/jstree/style.css",
                       "~/Content/site.css"));
 
