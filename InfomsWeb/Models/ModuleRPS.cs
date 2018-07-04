@@ -59,16 +59,17 @@ namespace InfomsWeb.Models
 
             dt.Rows.Add(1, "Settings", "User Settings", "/Settings/", 0, 1);
             dt.Rows.Add(2, "Admin", "this is Admin Page", "/Admin/", 0, 2);
-            dt.Rows.Add(3, "User Management", "This page is for admins to create, edit and delete users", "/Users/", 2, 1);
-            dt.Rows.Add(4, "Role Management", "This page is for admins to create, edit and delete roles", "/Roles/", 2, 3);
-            dt.Rows.Add(5, "Module Management", "This page is for admins to create, edit and delete modules", "/Modules/", 2, 2);
+            dt.Rows.Add(3, "User Management", "This page is for admins to create, edit and delete users", "/User/", 2, 2);
+            dt.Rows.Add(4, "Role Management", "This page is for admins to create, edit and delete roles", "/Role/", 2, 4);
+            dt.Rows.Add(5, "Module Management", "This page is for admins to create, edit and delete modules", "/Module/", 2, 3);
             dt.Rows.Add(6, "WebMap", "WebMap", "/WebMap/", 0, 4);
             dt.Rows.Add(7, "Dashboard", "Dashboard", "/Dashboard", 0, 3);
             dt.Rows.Add(8, "Dispatch", "Dispatch", "/Dispatch/", 7, 1);
             dt.Rows.Add(9, "Dispatch Cancel", "Dispatch", "/Dispatch/Cancel/", 8, 1);
             dt.Rows.Add(10, "Dispatch Resend", "Dispatch", "/Dispatch/Resend/", 8, 2);
-            dt.Rows.Add(11, "Add New User", "User", "/Users/Add", 3, 1);
-            dt.Rows.Add(12, "Dispatch Reassign", "Reassign Dispatch", "/Dispatch/Resend/Reassign", 10, 1);
+            dt.Rows.Add(11, "Add New User", "Add New User", "/Users/Add/", 3, 1);
+            //dt.Rows.Add(12, "Dispatch Reassign", "Reassign Dispatch", "/Dispatch/Resend/Reassign", 10, 1);
+            dt.Rows.Add(13, "Admin Home", "Admin Home", "/Admin/Index/", 2, 1);
 
             if (dt.Rows.Count > 0)
             {

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<InfomsWeb.Models.ModuleTree>
+
+
+@foreach (var item in Model)
+{
+    <li>
+        @if (item.Child.Count() > 0)
+        {
+            <a href="javascript:;" data-toggle="collapse"
+               data-target='@string.Format("#element{0}",item.ID)' aria-expanded="true">
+                    <span>@item.Name</span>                
+                <i class="fa fa-fw fa-caret-down"></i>
+            </a>
+            <ul id='@string.Format("element{0}",item.ID)' class="collapse in" aria-expanded="true">
+                @{
+                    Html.RenderPartial("_SideBarModule", item.Child);
+                }
+            </ul>
+        }
+        else
+        {
+            <a href="@item.Url">@item.Name</a>
+        }
+    </li>
+}

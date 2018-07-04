@@ -30,8 +30,10 @@ namespace InfomsWeb
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrapsuper.css",
                       "~/Content/bootstrap-grid.css",
+                      "~/Content/font-awesome.css",
                       "~/Content/jstree/style.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/sidebar.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/jstree").Include(
                 "~/Scripts/jstree/jstree.js"));

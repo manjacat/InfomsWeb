@@ -8,9 +8,12 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="container body-content">
+    <div id="wrapper" class="toggled">
         @Html.Partial("_TopNav")
-        @RenderBody()
+        @Html.Partial("_SideBar")
+        <div id="page-content-wrapper" class="container-fluid">
+            @RenderBody()
+        </div>
         <hr />
         @Html.Partial("_BottomFooter")
     </div>
@@ -20,5 +23,11 @@
     @Scripts.Render("~/bundles/customjs")
     @Scripts.Render("~/bundles/jstree")
     @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
 </body>
 </html>
