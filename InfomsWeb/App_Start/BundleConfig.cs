@@ -28,7 +28,7 @@ namespace InfomsWeb
                       "~/Scripts/autosize/autosize.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrapsuper.css",
                       "~/Content/bootstrap-grid.css",
                       "~/Content/jstree/style.css",
                       "~/Content/site.css"));
