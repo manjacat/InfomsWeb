@@ -18,7 +18,7 @@ namespace InfomsWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(UserLogin l, string returnUrl = "")
+        public ActionResult Index(UserLogin l)
         {
             if (ModelState.IsValid)
             {
@@ -26,14 +26,12 @@ namespace InfomsWeb.Controllers
                 if (x)
                 {
                     FormsAuthentication.SetAuthCookie(l.LoginName, l.RememberMe);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    return Redirect(returnUrl);
+
+                    //TODO: Redirect to some other place
+                    return RedirectToAction("Create", "Role");
                 }
             }
-            ModelState.Remove("Password");
+            //ModelState.Remove("Password");
             return View();
         }
 

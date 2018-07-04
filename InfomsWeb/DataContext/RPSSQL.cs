@@ -11,7 +11,8 @@ namespace InfomsWeb.DataContext
         public RPSSQL()
         {
             //TODO
-            connectionString = WebConfigurationManager.AppSettings.Get("RPSDB");
+            //connectionString = WebConfigurationManager.AppSettings.Get("RPSDB");
+            connectionString = WebConfigurationManager.ConnectionStrings["RPSDB"].ConnectionString;
         }
     }
 }
