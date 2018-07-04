@@ -1,6 +1,8 @@
-﻿using System;
+﻿using InfomsWeb.DataContext;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -9,7 +11,6 @@ namespace InfomsWeb.Models
 {
     public class UserLogin
     {
-        //Select ID, LOGINNAME, PASSWORD, STAFFID, NICKNAME, EMAIL, ISDEFAULT, ISACTIVE from Users;
         [Required(ErrorMessage = "Login Name is required.", AllowEmptyStrings = false)]
         public string LoginName { get; set; }
 
@@ -24,7 +25,7 @@ namespace InfomsWeb.Models
 
         public bool TryLogin()
         {
-            bool isValidUser = Membership.ValidateUser(LoginName, Password);
+            bool isValidUser = ValidateUser(LoginName, Password);
 
             return isValidUser;
         }
@@ -46,6 +47,22 @@ namespace InfomsWeb.Models
             //}
 
             return true;
+        }
+
+        public bool ValidateUser(string username, string password)
+        {
+            RPSSQL db = new RPSSQL();
+            DataTable dt = new DataTable();
+
+            string sqlQuery = "Select ID, LOGINNAME, PASSWORD, STAFFID, NICKNAME, EMAIL, ISDEFAULT, ISACTIVE From Users " +
+                "Where LOGINNAME = '" + username + "' and PASSWORD = '" + password + "'";
+            dt = db.RunQuery(sqlQuery);
+
+            if (dt.Rows.Count > 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
