@@ -12,8 +12,9 @@ namespace InfomsWeb.Controllers
     {
         // GET: Module
         #region ModuleTree
-        public ActionResult Index()
+        public ActionResult Index(string msg = "")
         {
+            ViewBag.Message = msg;
             ModuleTree modules = ModuleTree.BuildTree();
             return View(modules);
         }
@@ -51,9 +52,17 @@ namespace InfomsWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ModuleTree role)
+        public ActionResult Create(ModuleRPS module)
         {
-            return RedirectToAction("Index", new { msg = "Created module successfully." });
+            string a = "";
+            if (ModelState.IsValid)
+            {
+                module.Create();
+                return RedirectToAction("Index", new { msg = "Created module successfully." });
+            }
+            ViewBag.ParentList = module.GetParentDropdown();
+            ViewBag.SortList = module.GetSortDropdown();
+            return View(module);
         }
 
         public ActionResult Edit(string id, string parentId)
@@ -93,8 +102,8 @@ namespace InfomsWeb.Controllers
             if (ModelState.IsValid)
             {
                 //Save changes
-                ViewBag.Message = "Saved Successfully";
-                module.Save();
+                module.Update();
+                return RedirectToAction("Index", new { msg = string.Format("Updated {0} Successfully", module.Name) });
             }
             ViewBag.ParentList = module.GetParentDropdown();
             ViewBag.SortList = module.GetSortDropdown();

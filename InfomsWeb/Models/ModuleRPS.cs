@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InfomsWeb.DataContext;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
@@ -18,9 +19,12 @@ namespace InfomsWeb.Models
 
         public int ID { get; set; }
 
+        [Required]
         [Display(Name = "Module Name")]
         public string Name { get; set; }
+
         public string Description { get; set; }
+
         [Display(Name = "Link Url")]
         public string LinkURL { get; set; }
 
@@ -51,55 +55,12 @@ namespace InfomsWeb.Models
             }
         }
 
-        public int Save()
-        {
-            //TODO
-            return 0;
-        }
-
         //used in creating Nodes/Trees
+        //SampleData
         public static IEnumerable<ModuleRPS> GetListFromDataTable()
         {
-            List<ModuleRPS> tempList = new List<ModuleRPS>();
-            DataTable dt = new DataTable();
-            dt.Columns.Add("ID");
-            dt.Columns.Add("Name");
-            dt.Columns.Add("Description");
-            dt.Columns.Add("LinkURL");
-            dt.Columns.Add("ParentId");
-            dt.Columns.Add("SortId");
-
-            dt.Rows.Add(1, "Settings", "User Settings", "/Settings/", 0, 1);
-            dt.Rows.Add(2, "Admin", "this is Admin Page", "/Admin/", 0, 2);
-            dt.Rows.Add(3, "User Management", "This page is for admins to create, edit and delete users", "/User/", 2, 2);
-            dt.Rows.Add(4, "Role Management", "This page is for admins to create, edit and delete roles", "/Role/", 2, 4);
-            dt.Rows.Add(5, "Module Management", "This page is for admins to create, edit and delete modules", "/Module/", 2, 3);
-            dt.Rows.Add(6, "WebMap", "WebMap", "/WebMap/", 0, 4);
-            dt.Rows.Add(7, "Dashboard", "Dashboard", "/Dashboard", 0, 3);
-            dt.Rows.Add(8, "Dispatch", "Dispatch", "/Dispatch/", 7, 1);
-            dt.Rows.Add(9, "Dispatch Cancel", "Dispatch", "/Dispatch/Cancel/", 8, 1);
-            dt.Rows.Add(10, "Dispatch Resend", "Dispatch", "/Dispatch/Resend/", 8, 2);
-            dt.Rows.Add(11, "Add New User", "Add New User", "/Users/Add/", 3, 1);
-            //dt.Rows.Add(12, "Dispatch Reassign", "Reassign Dispatch", "/Dispatch/Resend/Reassign", 10, 1);
-            dt.Rows.Add(13, "Admin Home", "Admin Home", "/Admin/Index/", 2, 1);
-
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow dr in dt.Rows)
-                {
-                    ModuleRPS m = new ModuleRPS
-                    {
-                        ID = Convert.ToInt32(dr["ID"]),
-                        Name = dr["Name"].ToString(),
-                        Description = dr["Description"].ToString(),
-                        LinkURL = dr["LinkURL"].ToString(),
-                        ParentId = Convert.ToInt32(dr["ParentId"]),
-                        SortId = Convert.ToInt32(dr["SortId"])
-                    };
-                    tempList.Add(m);
-                }
-            }
-
+            ModuleDataContext db = new ModuleDataContext();
+            List<ModuleRPS> tempList = db.GetListModules();
             return tempList;
         }
 
@@ -154,7 +115,12 @@ namespace InfomsWeb.Models
                 }
             ).ToList();
             list = list.OrderBy(x => x.Value).ToList();
-            list.Insert(list.Count, new SelectListItem { Text = string.Format("New ({0})", list.Count + 1), Value = (list.Count + 1).ToString() });
+            //kalau module tu last,
+            //tak payah letak bottom
+            if (SortId == 0)
+            {
+                list.Insert(list.Count, new SelectListItem { Text = string.Format("New ({0})", list.Count + 1), Value = (list.Count + 1).ToString() });
+            }
 
             SelectList parentList = new SelectList(list, "Value", "Text");
             return parentList;
@@ -181,5 +147,16 @@ namespace InfomsWeb.Models
             return newSort;
         }
 
+        public int Update()
+        {
+            ModuleDataContext db = new ModuleDataContext();
+            return db.UpdateModule(this);
+        }
+
+        public int Create()
+        {
+            ModuleDataContext db = new ModuleDataContext();
+            return db.CreateModule(this);
+        }
     }
 }
