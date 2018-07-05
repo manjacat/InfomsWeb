@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace InfomsWeb.Controllers
 {
+    [Authorize]
     public class ModuleController : BaseController
     {
         // GET: Module
@@ -36,16 +37,16 @@ namespace InfomsWeb.Controllers
         }
         #endregion
 
-        public ActionResult Details(string id)
-        {
-            int idNo = Convert.ToInt32(id);
-            ModuleRPS role = ModuleRPS.GetModule(idNo);
-            return View(role);
-        }
-
         public ActionResult Create()
         {
-            return View();
+            ModuleRPS module = new ModuleRPS
+            {
+                ID = 0
+            };
+            //return RedirectToAction("Edit", new { id = 0 });
+            ViewBag.ParentList = module.GetParentDropdown();
+            ViewBag.SortList = module.GetSortDropdown();
+            return View(module);
         }
 
         [HttpPost]
@@ -69,15 +70,8 @@ namespace InfomsWeb.Controllers
             //filter sortId kepada subMenu dlm parent
             if (!string.IsNullOrEmpty(parentId))
             {
-                try
-                {
-                    module.ParentId = Convert.ToInt32(parentId);
-                    module.SortId = 0;
-                }
-                catch(Exception ex)
-                {
-                    string abc = ex.Message;
-                }
+                module.ParentId = Convert.ToInt32(parentId);
+                module.SortId = 0;
             }
             ViewBag.ParentList = module.GetParentDropdown();
             ViewBag.SortList = module.GetSortDropdown();

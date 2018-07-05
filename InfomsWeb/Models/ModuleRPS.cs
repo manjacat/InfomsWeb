@@ -34,9 +34,21 @@ namespace InfomsWeb.Models
 
         public static ModuleRPS GetModule(int id)
         {
-            List<ModuleRPS> modules = GetListFromDataTable().ToList();
-            ModuleRPS module = modules.Where(item => item.ID == id).FirstOrDefault();
-            return module;
+            if (id > 0)
+            {
+                List<ModuleRPS> modules = GetListFromDataTable().ToList();
+                ModuleRPS module = modules.Where(item => item.ID == id).FirstOrDefault();
+                return module;
+            }
+            else
+            {
+                ModuleRPS module = new ModuleRPS
+                {
+                    ID = 0,
+                    SortId = 0
+                };
+                return module;
+            }
         }
 
         public int Save()

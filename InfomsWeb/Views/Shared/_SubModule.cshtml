@@ -5,8 +5,8 @@
     {
         <li class="list-group-item">
             <span style="margin-right:5px;">@item.Name</span>
-            @Html.ActionLink("Edit", "Edit", "Module", new { id = item.ID }, null) |
-            @Html.ActionLink("Details", "Details", "Module", new { id = item.ID }, null)
+            <!-- todo: letak icon utk edit -->
+            @Html.ActionLink("Edit", "Edit", "Module", new { id = item.ID }, null) 
             @if (item.Child.Count() > 0)
             {
                 Html.RenderPartial("_SubModule", item.Child);

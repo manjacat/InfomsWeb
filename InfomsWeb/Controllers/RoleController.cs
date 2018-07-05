@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace InfomsWeb.Controllers
 {
+    [Authorize]
     public class RoleController : Controller
     {
         // GET: Role
