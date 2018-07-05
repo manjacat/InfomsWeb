@@ -136,7 +136,6 @@
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="DataContext\MyMembershipProvider.cs" />
     <Compile Include="DataContext\RoleDataContext.cs" />
     <Compile Include="DataContext\RPSSQL.cs" />
     <Compile Include="DataContext\SQLHelper.cs" />
