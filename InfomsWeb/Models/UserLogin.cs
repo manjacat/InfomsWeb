@@ -48,28 +48,9 @@ namespace InfomsWeb.Models
 
         public bool TryLogin()
         {
-            bool isValidUser = ValidateUser(LoginName, Password);
+            bool isValidUser = Membership.ValidateUser(LoginName, Password);
 
             return isValidUser;
-        }
-
-        private bool ValidateUser(string username, string password)
-        {
-            RPSSQL db = new RPSSQL();
-            DataTable dt = new DataTable();
-
-            string sqlQuery = "Select ID, LOGINNAME, PASSWORD, STAFFID, EMAIL, ISDEFAULT, ISACTIVE From Users " +
-                "Where LOGINNAME = '" + username + "' and PASSWORD = '" + password + "'";
-            dt = db.RunQuery(sqlQuery);
-
-            if (dt.Rows.Count > 0)
-            {
-                if (Convert.ToBoolean(dt.Rows[0]["ISACTIVE"].ToString()) != false)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         private DataTable GetUserByUsername(string username)

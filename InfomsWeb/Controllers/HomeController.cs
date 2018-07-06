@@ -37,6 +37,7 @@ namespace InfomsWeb.Controllers
                 }
             }
             //ModelState.Remove("Password");
+            ViewBag.ErrorMsg = "Login Failed!";
             return View();
         }
 
