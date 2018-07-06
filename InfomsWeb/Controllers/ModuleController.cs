@@ -38,13 +38,17 @@ namespace InfomsWeb.Controllers
         }
         #endregion
 
-        public ActionResult Create()
+        public ActionResult Create(string parentId)
         {
             ModuleRPS module = new ModuleRPS
             {
-                ID = 0
+                ID = 0,
+                ParentId = 0
             };
-            //return RedirectToAction("Edit", new { id = 0 });
+            if (!string.IsNullOrEmpty(parentId))
+            {
+                module.ParentId = Convert.ToInt32(parentId);
+            }
             ViewBag.ParentList = module.GetParentDropdown();
             ViewBag.SortList = module.GetSortDropdown();
             return View(module);
@@ -92,7 +96,14 @@ namespace InfomsWeb.Controllers
         public ActionResult Filter(ModuleRPS module)
         {
             ViewBag.Message = "Updating Parent/Child Pages";
-            return RedirectToAction("Edit", new { id = module.ID, parentId = module.ParentId });
+            if (module.ID == 0)
+            {
+                return RedirectToAction("Create", new { parentId = module.ParentId });
+            }
+            else
+            {
+                return RedirectToAction("Edit", new { id = module.ID, parentId = module.ParentId });
+            }
         }
 
         [HttpPost]
@@ -105,6 +116,7 @@ namespace InfomsWeb.Controllers
                 module.Update();
                 return RedirectToAction("Index", new { msg = string.Format("Updated {0} Successfully", module.Name) });
             }
+            ViewBag.Message = "Failed to update Module";
             ViewBag.ParentList = module.GetParentDropdown();
             ViewBag.SortList = module.GetSortDropdown();
             return View(module);

@@ -269,7 +269,6 @@
     <Content Include="Views\Module\JsTree.cshtml" />
     <Content Include="Views\Shared\_SubModule.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
-    <Content Include="Views\Role\Details.cshtml" />
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\Role\Edit.cshtml" />
     <Content Include="Views\Module\Create.cshtml" />

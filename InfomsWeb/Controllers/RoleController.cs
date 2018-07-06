@@ -21,13 +21,6 @@ namespace InfomsWeb.Controllers
             return View(result);
         }
 
-        public ActionResult Details(string id)
-        {
-            int idNo = Convert.ToInt32(id);
-            RoleRPS role = RoleRPS.GetRole(idNo);
-            return View(role);
-        }
-
         public ActionResult Create()
         {
             return View();
@@ -37,7 +30,14 @@ namespace InfomsWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(RoleRPS role)
         {
-            return RedirectToAction("Index", new { msg = "Created role successfully." });
+            if (ModelState.IsValid)
+            {
+                role.Create();
+                ViewBag.Message = "Created role successfully.";
+                return RedirectToAction("Index", new { msg = "Created role successfully." });
+            }
+            ViewBag.Message = "Error in creating Role";
+            return View(role);
         }
 
         public ActionResult Edit(string id)
@@ -54,8 +54,11 @@ namespace InfomsWeb.Controllers
             if (ModelState.IsValid)
             {
                 //Save changes
-                role.Save();
+                role.Update();
+                ViewBag.Message = "updated Role successfully";
+                return View(role);
             }
+            ViewBag.Message = "Failed to update Role";
             return View(role);
         }
 

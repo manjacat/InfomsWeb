@@ -1,5 +1,7 @@
-﻿using System;
+﻿using InfomsWeb.DataContext;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -13,35 +15,40 @@ namespace InfomsWeb.Models
         }
 
         public int ID { get; set; }
+        [Required]
+        [Display(Name = "Role Name")]
         public string Name { get; set; }
+        [Display(Name = "Active?")]
+        public bool IsActive { get; set; }
+        [Display(Name = "Default Role?")]
+        public bool IsDefault { get; set; }
         public ModuleTree Modules { get; set; }
 
         public static List<RoleRPS> GetRoles()
         {
-            List<RoleRPS> roles = new List<RoleRPS>();
-            for (int i = 0; i < 5; i++)
-            {
-                RoleRPS r1 = GetRole(i);
-                roles.Add(r1);
-            }
-
+            RoleDataContext db = new RoleDataContext();
+            List<RoleRPS> roles = db.GetRoles();
             return roles;
         }
 
         public static RoleRPS GetRole(int id)
         {
-            RoleRPS role = new RoleRPS
-            {
-                ID = id,
-                Name = "admin"
-            };
+            RoleDataContext db = new RoleDataContext();
+            RoleRPS role = db.GetRole(id);
             return role;
         }
 
-        public int Save()
+        public int Create()
         {
-            //TODO
-            return 0;
+            RoleDataContext db = new RoleDataContext();
+            return db.CreateRole(this);
         }
+
+        public int Update()
+        {
+            RoleDataContext db = new RoleDataContext();
+            return db.UpdateRole(this);
+        }
+
     }
 }
