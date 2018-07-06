@@ -51,24 +51,22 @@
                 }
             </li>
         </ul>
-        @*<form class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-                @Html.ActionLink("Login", "Login", "Home", null, new { @class = "btn btn-outline-success my-2 my-sm-0" })*@
 
-            @{
-                if (Request.IsAuthenticated)
+        Welcome @Html.Action("GetFullname","Home") !
+        &nbsp;&nbsp;&nbsp;
+
+        @{
+            if (Request.IsAuthenticated)
+            {
+                using (Html.BeginForm("Logout", "Home", FormMethod.Post, new { id = "logoutForm" }))
                 {
-                    using (Html.BeginForm("Logout", "Home", FormMethod.Post, new { id = "logoutForm" }))
-                    {
-                        <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-outline-primary">Logout</a>
-                    }
-                }
-                else
-                {
-                    @Html.ActionLink("Login", "Index", "Home", null, new { @class = "btn btn-outline-success my-2 my-sm-0" })
+                    <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-outline-primary">Logout</a>
                 }
             }
-        @*</form>*@
+            else
+            {
+                @Html.ActionLink("Login", "Index", "Home", null, new { @class = "btn btn-outline-success my-2 my-sm-0" })
+            }
+        }
     </div>
 </nav>
