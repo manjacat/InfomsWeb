@@ -10,14 +10,14 @@ namespace InfomsWeb.DataContext
 {
     public class ModuleDataContext : RPSSQL
     {
-        public List<ModuleRPS> GetListModules()
+        public List<ModuleRPS> GetListModules(int roleid)
         {
             string sqlString = "SELECT b.ID, NAME, [DESCRIPTION], LINKURL, PARENTID, SORTID, ISDELETED "
                 + "FROM [dbo].[ROLEMODULES] a JOIN[MODULES] b ON a.MODULE_ID = b.ID "
                 + "WHERE a.ROLE_ID = @Role_id; ";
             SqlParameter[] param = new SqlParameter[]
             {
-                new SqlParameter("@Role_id", 1)
+                new SqlParameter("@Role_id", roleid)
             };
             DataTable dt = QueryTable(sqlString, param);
 

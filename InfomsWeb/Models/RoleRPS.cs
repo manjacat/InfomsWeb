@@ -11,7 +11,7 @@ namespace InfomsWeb.Models
     {
         public RoleRPS()
         {
-            Modules = ModuleTree.BuildTree();
+            Modules = new ModuleTree();
         }
 
         public int ID { get; set; }
@@ -35,6 +35,13 @@ namespace InfomsWeb.Models
         {
             RoleDataContext db = new RoleDataContext();
             RoleRPS role = db.GetRole(id);
+            return role;
+        }
+
+        public static RoleRPS GetRoleByUsername(string user)
+        {
+            RoleDataContext db = new RoleDataContext();
+            RoleRPS role = db.GetRoleByUsername(user);
             return role;
         }
 

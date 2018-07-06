@@ -59,8 +59,9 @@ namespace InfomsWeb.Models
         //SampleData
         public static IEnumerable<ModuleRPS> GetListFromDataTable()
         {
+            RoleRPS role = RoleRPS.GetRoleByUsername(HttpContext.Current.User.Identity.Name);
             ModuleDataContext db = new ModuleDataContext();
-            List<ModuleRPS> tempList = db.GetListModules();
+            List<ModuleRPS> tempList = db.GetListModules(role.ID);
             return tempList;
         }
 

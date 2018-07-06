@@ -80,5 +80,29 @@ namespace InfomsWeb.DataContext
             return ExecNonQuery(sqlString, param);
         }
 
+        public RoleRPS GetRoleByUsername(string user)
+        {
+            string sqlString = "Select r.[ID],r.ISACTIVE,r.ISDEFAULT, r.[NAME] From ROLES r, USERROLES ur, USERS u "+
+                "Where u.LOGINNAME = @Username and u.ID = ur.[USER_ID] and ur.[ROLE_ID] = r.[ID];";
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@Username", user)
+            };
+            DataTable dt = QueryTable(sqlString, param);
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0];
+                RoleRPS rle = new Models.RoleRPS
+                {
+                    ID = Convert.ToInt32(dr["ID"]),
+                    Name = dr["NAME"].ToString(),
+                    IsActive = Convert.ToBoolean(dr["ISACTIVE"]),
+                    IsDefault = Convert.ToBoolean(dr["ISDEFAULT"])
+                    //Modules = new ModuleTree()
+                };
+                return rle;
+            }
+            return null;
+        }
     }
 }
