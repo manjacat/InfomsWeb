@@ -11,6 +11,8 @@ namespace InfomsWeb.Models
 {
     public class UserLogin
     {
+        public int ID { get; set; }
+
         [Required(ErrorMessage = "Login Name is required.", AllowEmptyStrings = false)]
         public string LoginName { get; set; }
 
@@ -18,10 +20,31 @@ namespace InfomsWeb.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        public string Fullname { get; set; }
+
         public bool RememberMe { get; set; }
 
         public bool IsDefault { get; set; }
         public bool IsActive { get; set; }
+
+        public string UserRoles { get; set; }
+
+        public UserLogin()
+        {
+        }
+
+        public UserLogin(string u)
+        {
+            DataTable dt = new DataTable();
+            //Select ID, LOGINNAME, PASSWORD, STAFFID, FULLNAME, ISDEFAULT, ISACTIVE
+            dt = GetUserByUsername(u);
+            ID = Convert.ToInt32(dt.Rows[0]["ID"].ToString());
+            LoginName = dt.Rows[0]["LOGINNAME"].ToString();
+            Fullname = dt.Rows[0]["FULLNAME"].ToString();
+            IsDefault = Convert.ToBoolean(dt.Rows[0]["ISDEFAULT"].ToString());
+            IsActive = Convert.ToBoolean(dt.Rows[0]["ISACTIVE"].ToString());
+            UserRoles = dt.Rows[0]["USERROLE"].ToString();
+        }
 
         public bool TryLogin()
         {
@@ -30,39 +53,43 @@ namespace InfomsWeb.Models
             return isValidUser;
         }
 
-        public static bool TryLogin(string Username, string Password)
-        {
-            //var isValidUser = Membership.ValidateUser(l.Username, l.Password);
-            //if (isValidUser)
-            //{
-            //    FormsAuthentication.SetAuthCookie(l.Username, l.RememberMe);
-            //    if (Url.IsLocalUrl(returnUrl))
-            //    {
-            //        return Redirect(returnUrl);
-            //    }
-            //    else
-            //    {
-            //        return RedirectToAction("MyProfile", "Home");
-            //    }
-            //}
-
-            return true;
-        }
-
-        public bool ValidateUser(string username, string password)
+        private bool ValidateUser(string username, string password)
         {
             RPSSQL db = new RPSSQL();
             DataTable dt = new DataTable();
 
-            string sqlQuery = "Select ID, LOGINNAME, PASSWORD, STAFFID, NICKNAME, EMAIL, ISDEFAULT, ISACTIVE From Users " +
+            string sqlQuery = "Select ID, LOGINNAME, PASSWORD, STAFFID, EMAIL, ISDEFAULT, ISACTIVE From Users " +
                 "Where LOGINNAME = '" + username + "' and PASSWORD = '" + password + "'";
             dt = db.RunQuery(sqlQuery);
 
             if (dt.Rows.Count > 0)
             {
-                return true;
+                if (Convert.ToBoolean(dt.Rows[0]["ISACTIVE"].ToString()) != false)
+                {
+                    return true;
+                }
             }
             return false;
+        }
+
+        private DataTable GetUserByUsername(string username)
+        {
+            RPSSQL db = new RPSSQL();
+            DataTable dt = new DataTable();
+
+            //string sqlQuery = "Select ID, LOGINNAME, PASSWORD, STAFFID, FULLNAME, ISDEFAULT, ISACTIVE From Users " +
+            //    "Where LOGINNAME = '" + username + "'";
+            string sqlQuery = "Select u.ID, u.LOGINNAME, u.PASSWORD, u.STAFFID, u.FULLNAME, u.EMAIL, u.ISDEFAULT, u.ISACTIVE , r.[NAME] as USERROLE " +
+                "From ROLES r, USERROLES ur, USERS u Where u.LOGINNAME = '" + username + "' and u.ID = ur.[USER_ID] " +
+                "and ur.[ROLE_ID] = r.[ID]";
+            dt = db.RunQuery(sqlQuery);
+
+            return dt;
+        }
+
+        public string GetUserFullname()
+        {
+            return "Nama Penuh";
         }
     }
 }

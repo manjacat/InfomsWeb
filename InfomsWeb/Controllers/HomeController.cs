@@ -13,10 +13,15 @@ namespace InfomsWeb.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Main");
+            }
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult Index(UserLogin l)
         {
@@ -28,11 +33,18 @@ namespace InfomsWeb.Controllers
                     FormsAuthentication.SetAuthCookie(l.LoginName, l.RememberMe);
 
                     //TODO: Redirect to some other place
-                    return RedirectToAction("Create", "Role");
+                    return RedirectToAction("Index", "Main");
                 }
             }
             //ModelState.Remove("Password");
             return View();
+        }
+
+        public ActionResult GetFullname()
+        {
+            UserLogin l = new UserLogin(User.Identity.Name);
+
+            return Content(l.Fullname);
         }
 
         [Authorize]
