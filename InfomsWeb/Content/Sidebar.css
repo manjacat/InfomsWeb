@@ -22,7 +22,7 @@
     height: 100%;
     margin-left: -200px;
     overflow-y: auto;
-    background: #000;
+    background: #222d32; /* sidebar punya bg color*/
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -71,12 +71,18 @@
 
             .sidebar-nav li a:hover {
                 text-decoration: none;
-                color: #DF691A;
-                background: rgba(255, 255, 255, 0.2);
+                color: #fff;
+                background: #772953;
             }
 
+            /*supaya parent akan hilang kaler bila kita hover ke benda lain*/
             .sidebar-nav li a:active, .sidebar-nav li a:focus {
                 text-decoration: none;
+            }
+
+            /* selangkan text dgn font-awesome punya icon*/
+            .sidebar-nav li a span {
+                margin-left: 15px;
             }
 
     .sidebar-nav > .sidebar-brand {

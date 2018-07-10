@@ -5,13 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb bg-info">
-        <li class="breadcrumb-item">@Html.ActionLink("Home", "Index", "Home", new { @class = "text-light" })</li>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Html.ActionLink("Home", "Index", "Home")</li>
         <li class="breadcrumb-item active">Modules</li>
     </ol>
 </nav>
+<p>
+    &nbsp;
+</p>
 <div class="row">
-    <div class="mx-auto col-sm-12">
+    <div class="col-sm-6">
         <div class="card">
             <div class="card-header">
                 <h4 class="mb-0">@ViewBag.Title</h4>

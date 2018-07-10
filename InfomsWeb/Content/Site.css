@@ -23,7 +23,47 @@ textarea {
     width: 100%;
 }*/
 
-
+/* div resize */
 .divresize {
     max-width: 300px;
 }
+
+input[type=submit], input[type=button] {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/* overwrite breadcrumb class dalam bootstrap*/
+.breadcrumb {
+    float: right;
+    background: transparent;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    padding: 7px 5px;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    border-radius: 2px;
+}
+
+    .breadcrumb > li > a {
+        color: #444;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .breadcrumb > li > a > .fa {
+            margin-right: 5px;
+        }
+
+    /*overwrite breadcrumb slash */
+    .breadcrumb li a::before, .breadcrumb-item + .breadcrumb-item::before {
+        content: '';
+    }
+
+    /*breadcrumb anak panah*/
+    .breadcrumb li a::after {
+        content: '\00a0>';
+        padding-left: 0.5em;
+    }

@@ -6,14 +6,17 @@
 }
 
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb bg-info">
-        <li class="breadcrumb-item">@Html.ActionLink("Home", "Index", "Home", new { @class = "text-light" })</li>
-        <li class="breadcrumb-item">@Html.ActionLink("Roles", "Index", "Roles", new { @class = "text-light" })</li>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Html.ActionLink("Home", "Index", "Home")</li>
+        <li class="breadcrumb-item">@Html.ActionLink("Roles", "Index", "Roles")</li>
         <li class="breadcrumb-item active" aria-current="page">Edit Modules</li>
     </ol>
 </nav>
+<p>
+    &nbsp;
+</p>
 <div class="row">
-    <div class="mx-auto col-sm-12">
+    <div class="col-sm-6">
         <div class="card">
             <div class="card-header">
                 <h4 class="mb-0">@ViewBag.Title</h4>
@@ -23,14 +26,16 @@
                 {
                     @Html.AntiForgeryToken()
                     <span class="text-success">@ViewBag.Message</span>
-                    <input type="hidden" name="roleId" value="@Model.Role.ID"/>
+                    <input type="hidden" name="roleId" value="@Model.Role.ID" />
                     <div class="form-group row">
-                        <ul class="list-group">
-                            @if (Model.ModuleTree.Child.Count() > 0)
-                            {
-                                Html.RenderPartial("_SubModuleCheckBox", Model.ModuleTree.Child);
-                            }
-                        </ul>
+                        <div class="col-sm-9">
+                            <ul class="list-group">
+                                @if (Model.ModuleTree.Child.Count() > 0)
+                                {
+                                    Html.RenderPartial("_SubModuleCheckBox", Model.ModuleTree.Child);
+                                }
+                            </ul>
+                        </div>
                     </div>
                     <div class="form-group row">
                         <input type="hidden" id="txtCheckList" name="txtCheckList" value="@Model.ModuleArray" class="form-control" />
@@ -38,7 +43,7 @@
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label"></label>
                         <div class="col-lg-9">
-                            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-info" }) |
+                            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-info" })
                             <input type="submit" value="Save Changes" class="btn btn-primary" formmethod="post" />
                         </div>
                     </div>

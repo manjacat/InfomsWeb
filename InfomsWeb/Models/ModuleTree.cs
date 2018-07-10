@@ -73,6 +73,13 @@ namespace InfomsWeb.Models
 
         public static ModuleTree BuildTree()
         {
+            //get all active modules
+            return BuildTree(ModuleRPS.GetListAll());
+        }
+
+        public static ModuleTree BuildTreeByUsername()
+        {
+            //get modules selected by user
             return BuildTree(ModuleRPS.GetListByUsername());
         }
     }

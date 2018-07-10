@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace InfomsWeb.Controllers
 {
-    public class RoleModuleController : Controller
+    public class RoleModuleController : BaseController
     {
         // GET: RoleModule
         public ActionResult Index()

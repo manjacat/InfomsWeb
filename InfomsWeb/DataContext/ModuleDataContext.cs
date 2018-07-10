@@ -14,7 +14,7 @@ namespace InfomsWeb.DataContext
         public List<ModuleRPS> GetAllModules()
         {
             string sqlString = "SELECT b.ID, NAME, [DESCRIPTION], LINKURL, PARENTID, SORTID, ISDELETED "
-                + "FROM [dbo].[ROLEMODULES] a JOIN [MODULES] b ON a.MODULE_ID = b.ID "
+                + "FROM [MODULES] b "
                 + "WHERE ISDELETED = 0; ";
             DataTable dt = QueryTable(sqlString);
 
@@ -128,23 +128,27 @@ namespace InfomsWeb.DataContext
                 oldSortId = 999;
             }
             //get list of SortId
+            //if (module.SortId < oldSortId)
+            //{
+            //    //naik
+            //    sqlString = "update Modules set SORTID = SORTID + 1 WHERE PARENTID = @ParentId "
+            //        + "AND SORTID > 0 AND SORTID <= @SortId AND ID != @ModuleId";
+            //}
+            //else
+            //{
+            //    //turun
+            //    sqlString = "update Modules set SORTID = SORTID - 1 WHERE PARENTID = @ParentId "
+            //        + "AND SORTID > @SortId AND ID != @ModuleId";
+            //}
+
             //Belom Jadi Lagi
-            if (module.SortId < oldSortId)
-            {
-                //naik
-                sqlString = "update Modules set SORTID = SORTID + 1 WHERE PARENTID = @ParentId "
-                    + "AND SORTID > 0 AND SORTID <= @SortId AND ID != @ModuleId";
-            }
-            else
-            {
-                //turun
-                sqlString = "update Modules set SORTID = SORTID - 1 WHERE PARENTID = @ParentId "
+            sqlString = "update Modules set SORTID = SORTID + 1 WHERE PARENTID = @ParentId "
                     + "AND SORTID > @SortId AND ID != @ModuleId";
-            }
+
             SqlParameter[] param1 = new SqlParameter[]
             {
                 new SqlParameter("@ParentId", module.ParentId),
-                new SqlParameter("@SortId", oldSortId),
+                new SqlParameter("@SortId", module.SortId),
                 new SqlParameter("@ModuleId", module.ID)
             };
             return ExecNonQuery(sqlString, param1);

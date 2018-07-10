@@ -8,7 +8,7 @@ using System.Web.Mvc;
 namespace InfomsWeb.Controllers
 {
     [Authorize]
-    public class RoleController : Controller
+    public class RoleController : BaseController
     {
         // GET: Role
         public ActionResult Index(string msg)

@@ -6,14 +6,17 @@
 
 }
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb bg-info">
-        <li class="breadcrumb-item">@Html.ActionLink("Home", "Index", "Home", new { @class = "text-light" })</li>
-        <li class="breadcrumb-item">@Html.ActionLink("Modules", "Index", "Module", new { @class = "text-light" })</li>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">@Html.ActionLink("Home", "Index", "Home")</li>
+        <li class="breadcrumb-item">@Html.ActionLink("Modules", "Index", "Module")</li>
         <li class="breadcrumb-item active" aria-current="page">Edit</li>
     </ol>
 </nav>
+<p>
+    &nbsp;
+</p>
 <div class="row">
-    <div class="mx-auto col-sm-12">
+    <div class="col-sm-6">
         <div class="card">
             <div class="card-header">
                 <h4 class="mb-0">@ViewBag.Title</h4>
@@ -66,9 +69,9 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                        
                         <div class="col-lg-9">
-                            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-info" }) |
+                            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-info" })
                             <input type="submit" value="Save Changes" class="btn btn-primary" formaction="~/Module/Edit/" formmethod="post" />
                         </div>
                     </div>
@@ -76,6 +79,9 @@
             </div>
         </div>
         <!-- /form user info -->
+    </div>
+    <div class="col-sm-6">
+
     </div>
 </div>
 

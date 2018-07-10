@@ -13,7 +13,7 @@
     </ol>
 </nav>
 <div class="row">
-    <div class="mx-auto col-sm-12">
+    <div class="col-sm-6">
         <div class="card">
             <div class="card-header">
                 <h4 class="mb-0">@ViewBag.Title</h4>
@@ -66,7 +66,7 @@
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label"></label>
                         <div class="col-lg-9">
-                            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-info" }) |
+                            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-info" })
                             <input type="submit" value="Create New" class="btn btn-primary" formaction="/Module/Create/" formmethod="post" />
                         </div>
                     </div>
