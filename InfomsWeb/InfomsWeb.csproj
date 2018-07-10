@@ -136,10 +136,12 @@
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\RoleModuleController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataContext\ModuleDataContext.cs" />
     <Compile Include="DataContext\RoleDataContext.cs" />
+    <Compile Include="DataContext\RoleModuleDataContext.cs" />
     <Compile Include="DataContext\RPSSQL.cs" />
     <Compile Include="DataContext\SQLHelper.cs" />
     <Compile Include="DataContext\UserDataContext.cs" />
@@ -158,6 +160,7 @@
     <Compile Include="Security\CustomRoleProvider.cs" />
     <Compile Include="Security\Encryption.cs" />
     <Compile Include="Utility\Logging.cs" />
+    <Compile Include="ViewModel\RoleModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
@@ -248,7 +251,9 @@
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -290,6 +295,8 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\User\AssignRole.cshtml" />
+    <Content Include="Views\RoleModule\Edit.cshtml" />
+    <Content Include="Views\RoleModule\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

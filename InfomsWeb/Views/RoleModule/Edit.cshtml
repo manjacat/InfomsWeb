@@ -1,0 +1,78 @@
+﻿@model InfomsWeb.ViewModel.RoleModule
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-info">
+        <li class="breadcrumb-item">@Html.ActionLink("Home", "Index", "Home", new { @class = "text-light" })</li>
+        <li class="breadcrumb-item">@Html.ActionLink("Roles", "Index", "Roles", new { @class = "text-light" })</li>
+        <li class="breadcrumb-item active" aria-current="page">Edit Modules</li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="mx-auto col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">@ViewBag.Title</h4>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <span class="text-success">@ViewBag.Message</span>
+                    <div class="form-group row">
+                        <ul class="list-group">
+                            @if (Model.ModuleTree.Child.Count() > 0)
+                            {
+                                Html.RenderPartial("_SubModuleCheckBox", Model.ModuleTree.Child);
+                            }
+                        </ul>
+                    </div>
+                    <div class="form-group row">
+                        <input type="text" id="txtCheckList" name="txtCheckList" value="@Model.ModuleArray" class="form-control" />
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                        <div class="col-lg-9">
+                            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-info" }) |
+                            <input type="submit" value="Save Changes" class="btn btn-primary" formmethod="post" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            SetHiddenValue();
+        });
+
+        function SetHiddenValue() {
+            var checkBoxes = $("[id*=IsChecked]");
+            var txtCheckList = $("#txtCheckList");
+            checkBoxes.click(function () {
+                txtCheckList.val('');
+                var strArray = [];
+                checkBoxes.each(function () {
+                    if (this.checked) {
+                        //console.log('adding ' + $(this).attr("data-details"));
+                        strArray.push($(this).attr("data-details"));
+                    }
+                });
+                var strJoin = strArray.join(',');
+                txtCheckList.val(strJoin);
+            });
+        }
+
+        function resizeTextArea() {
+            autosize(document.querySelectorAll('textarea'));
+        }
+    </script>
+}
+

@@ -4,7 +4,7 @@
     @foreach (var item in Model)
     {
         <li class="list-group-item">
-            @Html.CheckBox("IsChecked")
+            @Html.CheckBox("IsChecked", item.IsChecked, new {  id = string.Format("IsChecked{0}", item.ID), @class = "checkbox", data_details = item.ID })
             <span style="margin-right:5px;">@item.Name</span>            
             @if (item.Child.Count() > 0)
             {

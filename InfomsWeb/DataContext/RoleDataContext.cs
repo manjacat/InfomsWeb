@@ -25,8 +25,7 @@ namespace InfomsWeb.DataContext
                         ID = Convert.ToInt32(dr["ID"]),
                         Name = dr["NAME"].ToString(),
                         IsActive = Convert.ToBoolean(dr["ISACTIVE"]),
-                        IsDefault = Convert.ToBoolean(dr["ISDEFAULT"]),
-                        Modules = ModuleTree.BuildTree()
+                        IsDefault = Convert.ToBoolean(dr["ISDEFAULT"])
                     };
                     list.Add(rle);
                 }
@@ -50,8 +49,7 @@ namespace InfomsWeb.DataContext
                     ID = Id,
                     Name = dr["NAME"].ToString(),
                     IsActive = Convert.ToBoolean(dr["ISACTIVE"]),
-                    IsDefault = Convert.ToBoolean(dr["ISDEFAULT"]),
-                    Modules = ModuleTree.BuildTree()
+                    IsDefault = Convert.ToBoolean(dr["ISDEFAULT"])
                 };
                 return rle;
             }
@@ -82,7 +80,7 @@ namespace InfomsWeb.DataContext
 
         public RoleRPS GetRoleByUsername(string user)
         {
-            string sqlString = "Select r.[ID],r.ISACTIVE,r.ISDEFAULT, r.[NAME] From ROLES r, USERROLES ur, USERS u "+
+            string sqlString = "Select r.[ID],r.ISACTIVE,r.ISDEFAULT, r.[NAME] From ROLES r, USERROLES ur, USERS u " +
                 "Where u.LOGINNAME = @Username and u.ID = ur.[USER_ID] and ur.[ROLE_ID] = r.[ID];";
             SqlParameter[] param = new SqlParameter[]
             {
@@ -98,7 +96,6 @@ namespace InfomsWeb.DataContext
                     Name = dr["NAME"].ToString(),
                     IsActive = Convert.ToBoolean(dr["ISACTIVE"]),
                     IsDefault = Convert.ToBoolean(dr["ISDEFAULT"])
-                    //Modules = new ModuleTree()
                 };
                 return rle;
             }
@@ -127,3 +124,4 @@ namespace InfomsWeb.DataContext
         }
     }
 }
+

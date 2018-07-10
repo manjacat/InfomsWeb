@@ -11,7 +11,7 @@ namespace InfomsWeb.Models
     {
         public RoleRPS()
         {
-            Modules = new ModuleTree();
+
         }
 
         public int ID { get; set; }
@@ -22,7 +22,6 @@ namespace InfomsWeb.Models
         public bool IsActive { get; set; }
         [Display(Name = "Default Role?")]
         public bool IsDefault { get; set; }
-        public ModuleTree Modules { get; set; }
 
         public static List<RoleRPS> GetRoles()
         {

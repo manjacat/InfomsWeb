@@ -36,6 +36,9 @@ namespace InfomsWeb.Models
         [Display(Name = "Parent")]
         public int ParentId { get; set; }
 
+        [Display(Name = "Authorized?")]
+        public bool IsAuthorized { get; set; }
+
         public static ModuleRPS GetModule(int id)
         {
             if (id > 0)
@@ -55,8 +58,7 @@ namespace InfomsWeb.Models
             }
         }
 
-        //used in creating Nodes/Trees
-        //SampleData
+        //used in creating ModuleTree
         public static IEnumerable<ModuleRPS> GetListFromDataTable()
         {
             RoleRPS role = RoleRPS.GetRoleByUsername(HttpContext.Current.User.Identity.Name);
