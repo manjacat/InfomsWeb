@@ -35,15 +35,15 @@ namespace InfomsWeb.Models
 
         public UserLogin(string u)
         {
-            DataTable dt = new DataTable();
-            //Select ID, LOGINNAME, PASSWORD, STAFFID, FULLNAME, ISDEFAULT, ISACTIVE
-            dt = GetUserByUsername(u);
-            ID = Convert.ToInt32(dt.Rows[0]["ID"].ToString());
-            LoginName = dt.Rows[0]["LOGINNAME"].ToString();
-            Fullname = dt.Rows[0]["FULLNAME"].ToString();
-            IsDefault = Convert.ToBoolean(dt.Rows[0]["ISDEFAULT"].ToString());
-            IsActive = Convert.ToBoolean(dt.Rows[0]["ISACTIVE"].ToString());
-            UserRoles = dt.Rows[0]["USERROLE"].ToString();
+            UserDataContext ud = new UserDataContext();
+            UserLogin l = ud.GetUserByUsername(u);
+
+            ID = l.ID;
+            LoginName = l.LoginName;
+            Fullname = l.Fullname;
+            IsDefault = l.IsDefault;
+            IsActive = l.IsActive;
+            UserRoles = l.UserRoles;
         }
 
         public bool TryLogin()
@@ -51,26 +51,6 @@ namespace InfomsWeb.Models
             bool isValidUser = Membership.ValidateUser(LoginName, Password);
 
             return isValidUser;
-        }
-
-        private DataTable GetUserByUsername(string username)
-        {
-            RPSSQL db = new RPSSQL();
-            DataTable dt = new DataTable();
-
-            //string sqlQuery = "Select ID, LOGINNAME, PASSWORD, STAFFID, FULLNAME, ISDEFAULT, ISACTIVE From Users " +
-            //    "Where LOGINNAME = '" + username + "'";
-            string sqlQuery = "Select u.ID, u.LOGINNAME, u.PASSWORD, u.STAFFID, u.FULLNAME, u.EMAIL, u.ISDEFAULT, u.ISACTIVE , r.[NAME] as USERROLE " +
-                "From ROLES r, USERROLES ur, USERS u Where u.LOGINNAME = '" + username + "' and u.ID = ur.[USER_ID] " +
-                "and ur.[ROLE_ID] = r.[ID]";
-            dt = db.RunQuery(sqlQuery);
-
-            return dt;
-        }
-
-        public string GetUserFullname()
-        {
-            return "Nama Penuh";
         }
     }
 }

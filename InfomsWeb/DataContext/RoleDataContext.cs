@@ -104,5 +104,26 @@ namespace InfomsWeb.DataContext
             }
             return null;
         }
+
+        public List<AssignUserRole> GetListActiveRoles()
+        {
+            List<AssignUserRole> list = new List<AssignUserRole>();
+
+            string sqlString = "SELECT [ID], [NAME] FROM [ROLES] WHERE [ISACTIVE] = 1";
+            DataTable dt = QueryTable(sqlString);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    AssignUserRole rle = new AssignUserRole
+                    {
+                        RoleID = Convert.ToInt32(dr["ID"]),
+                        RoleName = dr["NAME"].ToString()
+                    };
+                    list.Add(rle);
+                }
+            }
+            return list;
+        }
     }
 }

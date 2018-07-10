@@ -79,7 +79,6 @@ namespace InfomsWeb.Models
             return modules;
         }
 
-
         public SelectList GetParentDropdown()
         {
             List<ModuleRPS> moduleList = ModuleRPS.GetListFromDataTable().ToList();

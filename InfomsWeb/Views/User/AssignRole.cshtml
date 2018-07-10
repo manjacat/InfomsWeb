@@ -1,0 +1,27 @@
+﻿@model InfomsWeb.Models.AssignUserRole
+
+@{
+    ViewBag.Title = "AssignRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AssignRole</h2>
+
+<div class="form-group row">
+    @Html.LabelFor(model => model.Fullname, htmlAttributes: new { @class = ViewBag.Labelcss })
+    <div class="col-lg-9">
+        @Html.DropDownListFor(model => model.UserID, ViewBag.UserList as SelectList, "Select User",
+                                 new { @class = "form-control", size = "0" })
+        @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+
+<div class="form-group row">
+    @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = ViewBag.Labelcss })
+    <div class="col-lg-9">
+        @Html.DropDownListFor(model => model.RoleID, ViewBag.RoleList as SelectList, "Select Role",
+                                 new { @class = "form-control", size = "0" })
+        @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
+    </div>
+</div>

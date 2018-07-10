@@ -1,0 +1,65 @@
+﻿@model IEnumerable<InfomsWeb.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StaffID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDefault)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StaffID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsDefault)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "Edit", "User", new { id = item.ID }, new { @class = "fa fa-2x fa-edit" })
+            @Html.ActionLink(" ", "Details", "User", new { id = item.ID }, new { @class = "fa fa-2x fa-info-circle" })
+            @Html.ActionLink(" ", "AssignRole", "User", new { id = item.ID } , new { @class = "fa fa-2x fa-cog" })
+            @Html.ActionLink(" ", "Delete", "User", new { id = item.ID }, new { @class = "fa fa-2x fa-trash" })
+        </td>
+    </tr>
+}
+
+</table>
