@@ -34,14 +34,26 @@ namespace InfomsWeb.Controllers
         }
 
 
-        public ActionResult AssignRole()
+        public ActionResult AssignRole(int id = 0)
         {
             AssignUserRole aur = new AssignUserRole();
 
-            ViewBag.UserList = aur.GetUserList();
-            ViewBag.RoleList = aur.GetRoleList();
+            ViewBag.UserList = aur.GetUserList(id);
+            ViewBag.RoleList = aur.GetRoleList(id);
 
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignRole(AssignUserRole asgn)
+        {
+            if (ModelState.IsValid)
+            {
+                asgn.SaveUserRole();
+                return RedirectToAction("Index");
+            }
+            return View(asgn);
         }
     }
 }

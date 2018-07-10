@@ -98,11 +98,53 @@ namespace InfomsWeb.DataContext
             return ExecNonQuery(sqlString, param);
         }
 
+        public int SaveUserRoleAssign(AssignUserRole usr)
+        {
+            //TODO: Check for Insert or Update
+            string sqlString = string.Empty;
+            object result = CheckUserRole(usr.UserID);
+
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@USERID", usr.UserID),
+                new SqlParameter("@ROLEID", usr.RoleID)
+            };
+
+            if (result != null)
+            {
+                //run update
+                sqlString = "UPDATE [dbo].[USERROLES] SET [USER_ID] = @USERID, [ROLE_ID] = @ROLEID WHERE [ID] = @ID";
+                Array.Resize(ref param, 3);
+                param[2] = new SqlParameter("@ID", result);
+            }
+            else
+            {
+                //run insert
+                sqlString = "INSERT INTO [USERROLES] ([USER_ID],[ROLE_ID]) VALUES (@USERID, @ROLEID)";
+            }
+
+            return ExecNonQuery(sqlString, param);
+        }
+
+        private object CheckUserRole(int userID)
+        {
+            string sqlString = "SELECT [ID] from [USERROLES] WHERE [USER_ID] = @USERID";
+
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@USERID", userID)
+            };
+            //return no. of rows affected
+            return ExecScalar(sqlString, param);
+        }
+
         public List<AssignUserRole> GetListActiveUser()
         {
             List<AssignUserRole> list = new List<AssignUserRole>();
 
-            string sqlString = "Select ID, Fullname From Users Where IsActive = 1";
+            string sqlString = "Select u.ID, u.FULLNAME, IsNull(ur.ROLE_ID,0) as ROLE_ID From USERS u " +
+                "Left Join USERROLES ur ON ur.USER_ID = u.ID " +
+                "WHERE u.ISACTIVE = 1";
             DataTable dt = QueryTable(sqlString);
             if (dt.Rows.Count > 0)
             {
@@ -111,7 +153,8 @@ namespace InfomsWeb.DataContext
                     AssignUserRole aur = new AssignUserRole
                     {
                         UserID = Convert.ToInt32(dr[0]),
-                        Fullname = dr[1].ToString()
+                        Fullname = dr[1].ToString(),
+                        RoleID = Convert.ToInt32(dr[2])
                     };
                     list.Add(aur);
                 }

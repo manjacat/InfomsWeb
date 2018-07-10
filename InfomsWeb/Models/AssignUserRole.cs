@@ -13,26 +13,32 @@ namespace InfomsWeb.Models
     public class AssignUserRole
     {
         public int UserID { get; set; }
+        [Display(Name = "User's Name: ")]
         public string Fullname { get; set; }
         public int RoleID { get; set; }
+        [Display(Name = "Assign Role: ")]
         public string RoleName { get; set; }
 
-        public SelectList GetUserList()
+        public SelectList GetUserList(int id)
         {
             List<AssignUserRole> userList = AssignUserRole.GetUserListFromDatabase().ToList();
             List<SelectListItem> list = userList.Select(
                 x => new SelectListItem
                 {
                     Text = x.Fullname,
-                    Value = x.UserID.ToString()
+                    Value = x.UserID.ToString(),
+                    Selected = x.UserID == id ? true : false
                 }).ToList();
-            SelectList usr = new SelectList(list, "Value", "Text");
+            SelectList usr = new SelectList(list, "Value", "Text", id);
             return usr;
         }
 
-        public SelectList GetRoleList()
+        public SelectList GetRoleList(int id)
         {
             List<AssignUserRole> roleList = AssignUserRole.GetRoleListFromDatabase().ToList();
+            RoleDataContext db = new RoleDataContext();
+            int selectedRole = db.GetRoleByUserID(id);
+
             List<SelectListItem> list = roleList.Select(
                 y => new SelectListItem
                 {
@@ -40,7 +46,7 @@ namespace InfomsWeb.Models
                     Value = y.RoleID.ToString()
                 }).ToList();
 
-            SelectList rle = new SelectList(list, "Value", "Text");
+            SelectList rle = new SelectList(list, "Value", "Text", selectedRole);
             return rle;
         }
 
@@ -56,6 +62,12 @@ namespace InfomsWeb.Models
             RoleDataContext db = new RoleDataContext();
             List<AssignUserRole> tempList = db.GetListActiveRoles();
             return tempList;
+        }
+
+        public int SaveUserRole()
+        {
+            UserDataContext db = new UserDataContext();
+            return db.SaveUserRoleAssign(this);
         }
     }
 }

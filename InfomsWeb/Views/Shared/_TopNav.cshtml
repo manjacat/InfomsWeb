@@ -31,13 +31,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-item nav-link" })
+                @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-item nav-link active" })
             </li>
             <li class="nav-item">
                 @{
                     if (Request.IsAuthenticated)
                     {
-                        @Html.ActionLink("Roles", "Index", "Role", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("Roles", "Index", "Role", null, new { @class = "nav-item nav-link active" })
                     }
                 }
 
@@ -46,14 +46,17 @@
                 @{
                     if (Request.IsAuthenticated)
                     {
-                        @Html.ActionLink("Modules", "Index", "Module", null, new { @class = "nav-item nav-link" })
+                        @Html.ActionLink("Modules", "Index", "Module", null, new { @class = "nav-item nav-link active" })
                     }
                 }
             </li>
         </ul>
 
-        Welcome @Html.Action("GetFullname","Home") !
-        &nbsp;&nbsp;&nbsp;
+        <span class="text-white">
+            Welcome @Html.Action("GetFullname", "Home") !
+            &nbsp;&nbsp;&nbsp;
+        </span>
+
 
         @{
             if (Request.IsAuthenticated)
@@ -65,7 +68,7 @@
             }
             else
             {
-                @Html.ActionLink("Login", "Index", "Home", null, new { @class = "btn btn-outline-success my-2 my-sm-0" })
+                @Html.ActionLink("Login", "Index", "Home", null, new { @class = "btn btn-outline-success my-2 my-sm-0 active" })
             }
         }
     </div>

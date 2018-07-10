@@ -262,6 +262,43 @@ namespace InfomsWeb.DataContext
 
         }
 
+        protected object ExecScalar(string SQLscript, SqlParameter[] parameters)
+        {
+            DataSet ds = new DataSet("result");
+            object firstData = new object();
+            using (SqlConnection myConnection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    if (myConnection.State == ConnectionState.Open)
+                        myConnection.Close();
+                    myConnection.Open();
+                    SqlCommand myCommand = new SqlCommand(SQLscript, myConnection);
+                    if (parameters != null)
+                    {
+                        myCommand.Parameters.AddRange(parameters);
+                    }
+                    myCommand.CommandType = CommandType.Text;
+                    firstData = myCommand.ExecuteScalar();
+                    myCommand = null;
+                }
+                catch (Exception ex)
+                {
+                    //Log Error
+                    string sqlquery = SQLscript;
+                    Logging log = new Logging();
+                    log.Error(ex, sqlquery);
+                    throw ex;
+                }
+                finally
+                {
+                    //Ensure connection is always closed even if error
+                    myConnection.Close();
+                }
+                return firstData;
+            }
+        }
+
         public DataTable RunQuery(string sqlScript)
         {
             DataTable dt = new DataTable();

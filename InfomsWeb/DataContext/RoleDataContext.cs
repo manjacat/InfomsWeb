@@ -122,6 +122,21 @@ namespace InfomsWeb.DataContext
             }
             return list;
         }
+
+        public int GetRoleByUserID(int uid)
+        {
+            string sqlString = "SELECT r.ID FROM ROLES r, USERROLES ur WHERE r.ID = ur.ROLE_ID and ur.USER_ID = @UserId";
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@UserId", uid)
+            };
+            DataTable dt = QueryTable(sqlString, param);
+            if (dt.Rows.Count > 0)
+            {
+                return Convert.ToInt32(dt.Rows[0][0]);
+            }
+            return 0;
+        }
     }
 }
 

@@ -43,9 +43,13 @@ namespace InfomsWeb.Controllers
 
         public ActionResult GetFullname()
         {
-            UserLogin l = new UserLogin(User.Identity.Name);
+            if (User.Identity.Name != "")
+            {
+                UserLogin l = new UserLogin(User.Identity.Name);
 
-            return Content(l.Fullname);
+                return Content(l.Fullname);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [Authorize]

@@ -170,8 +170,14 @@
     <Content Include="Content\bootstrap-treeview.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstraplumen.css" />
+    <Content Include="Content\bootstraplumen.min.css" />
+    <Content Include="Content\bootstrapsand.css" />
+    <Content Include="Content\bootstrapsand.min.css" />
     <Content Include="Content\bootstrapsuper.css" />
     <Content Include="Content\bootstrapsuper.min.css" />
+    <Content Include="Content\bootstrapunited.css" />
+    <Content Include="Content\bootstrapunited.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\jstree\32px.png" />
@@ -294,9 +300,9 @@
     <Content Include="Views\Main\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
-    <Content Include="Views\User\AssignRole.cshtml" />
     <Content Include="Views\RoleModule\Edit.cshtml" />
     <Content Include="Views\RoleModule\Index.cshtml" />
+    <Content Include="Views\User\AssignRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

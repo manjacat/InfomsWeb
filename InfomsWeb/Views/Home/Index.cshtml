@@ -13,9 +13,6 @@
         
         <h5 class="text-success">Hey.. It's good to see you back.</h5>
         <h2 class="text-info">Sign In</h2>
-        <div class="text-center">
-            <span class="text-danger text-center">@ViewBag.ErrorMsg</span>
-        </div>
 
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         <hr />
@@ -45,7 +42,7 @@
         <div class="form-group">
             <input type="submit" value="Login" class="btn btn-primary btn-block" />
             <hr />
-            @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RememberMe, htmlAttributes: new { @class = "control-label col-md-2 text-white" })
             <div class="pull-left">
                 <div class="checkbox checkbox-inline">
                     @Html.EditorFor(model => model.RememberMe)
@@ -53,6 +50,10 @@
                 </div>
             </div>
             <a href="#" class="pull-right">Forgot Password?</a>
+        </div>
+
+        <div class="text-center">
+            <span class="text-danger text-center">@ViewBag.ErrorMsg</span>
         </div>
     }
 </div>
