@@ -10,10 +10,38 @@ namespace InfomsWeb.DataContext
 {
     public class ModuleDataContext : RPSSQL
     {
+        //For Admin to edit Modules
+        public List<ModuleRPS> GetAllModules()
+        {
+            string sqlString = "SELECT b.ID, NAME, [DESCRIPTION], LINKURL, PARENTID, SORTID, ISDELETED "
+                + "FROM [dbo].[ROLEMODULES] a JOIN [MODULES] b ON a.MODULE_ID = b.ID "
+                + "WHERE ISDELETED = 0; ";
+            DataTable dt = QueryTable(sqlString);
+
+            List<ModuleRPS> list = new List<ModuleRPS>();
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    ModuleRPS m = new ModuleRPS
+                    {
+                        ID = Convert.ToInt32(dr["ID"]),
+                        Name = dr["Name"].ToString(),
+                        Description = dr["Description"].ToString(),
+                        LinkURL = dr["LinkURL"].ToString(),
+                        ParentId = Convert.ToInt32(dr["ParentId"]),
+                        SortId = Convert.ToInt32(dr["SortId"])
+                    };
+                    list.Add(m);
+                }
+            }
+            return list;
+        }
+
         public List<ModuleRPS> GetListModules(int roleid)
         {
             string sqlString = "SELECT b.ID, NAME, [DESCRIPTION], LINKURL, PARENTID, SORTID, ISDELETED "
-                + "FROM [dbo].[ROLEMODULES] a JOIN[MODULES] b ON a.MODULE_ID = b.ID "
+                + "FROM [dbo].[ROLEMODULES] a JOIN [MODULES] b ON a.MODULE_ID = b.ID "
                 + "WHERE a.ROLE_ID = @Role_id; ";
             SqlParameter[] param = new SqlParameter[]
             {
@@ -61,12 +89,12 @@ namespace InfomsWeb.DataContext
             ExecNonQuery(sqlString, param);
 
             ////TODO: if SortId is updated, change all sortId for that parent
-            UpdateSortId(module);
+            UpdateSortId(module, 0);
 
             return 0;
         }
 
-        public int UpdateModule(ModuleRPS module)
+        public int UpdateModule(ModuleRPS module, int oldSortId)
         {
             if (string.IsNullOrEmpty(module.Description))
             {
@@ -88,26 +116,50 @@ namespace InfomsWeb.DataContext
             ExecNonQuery(sqlString, param);
 
             //TODO: if SortId is updated, change all sortId for that parent
-            UpdateSortId(module);
+            UpdateSortId(module, oldSortId);
             return 0;
         }
 
-        private int UpdateSortId(ModuleRPS module)
+        private int UpdateSortId(ModuleRPS module, int oldSortId)
         {
             string sqlString = string.Empty;
+            if (oldSortId == 0)
+            {
+                oldSortId = 999;
+            }
             //get list of SortId
-            sqlString = "update Modules set SORTID = SORTID + 1 WHERE PARENTID = @ParentId "
-                + "AND SORTID >= @SortId AND ID != @ModuleId";
+            //Belom Jadi Lagi
+            if (module.SortId < oldSortId)
+            {
+                //naik
+                sqlString = "update Modules set SORTID = SORTID + 1 WHERE PARENTID = @ParentId "
+                    + "AND SORTID > 0 AND SORTID <= @SortId AND ID != @ModuleId";
+            }
+            else
+            {
+                //turun
+                sqlString = "update Modules set SORTID = SORTID - 1 WHERE PARENTID = @ParentId "
+                    + "AND SORTID > @SortId AND ID != @ModuleId";
+            }
             SqlParameter[] param1 = new SqlParameter[]
             {
                 new SqlParameter("@ParentId", module.ParentId),
-                new SqlParameter("@SortId", module.SortId),
+                new SqlParameter("@SortId", oldSortId),
                 new SqlParameter("@ModuleId", module.ID)
             };
+            return ExecNonQuery(sqlString, param1);
 
-            ExecNonQuery(sqlString, param1);
-
-            return 0;
+            //List<ModuleRPS> list = GetModuleByParentId(module.ParentId);
+            //if (list.Count > 0)
+            //{
+            //    int counter = 0;
+            //    foreach (ModuleRPS m in list)
+            //    {
+            //        counter++;
+            //        sqlString += string.Format("update MODULES Set SORTID = {0} WHERE ID = {1}; ", counter, m.ID);
+            //    }
+            //    ExecNonQuery(sqlString);
+            //}
         }
     }
 }

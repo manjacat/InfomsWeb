@@ -28,12 +28,29 @@ namespace InfomsWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(string id, string txtCheckList = "")
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(string roleId, string txtCheckList = "")
         {
-            //TODO: update RoleModule
-            List<string> moduleIdList = txtCheckList.Split(',').ToList();
-            List<int> moduleIdListNo = moduleIdList.Select(x => Convert.ToInt32(x)).ToList();
-            int idNo = Convert.ToInt32(id);
+            if (string.IsNullOrEmpty(roleId))
+            {
+                return RedirectToAction("Index");
+            }
+            int idNo = Convert.ToInt32(roleId);
+
+            try
+            {
+                List<string> moduleIdList = txtCheckList.Split(',').ToList();
+                List<int> moduleIdListNo = moduleIdList.
+                    Select(x => Convert.ToInt32(x))
+                    .Distinct()
+                    .ToList();
+                int retVal = RoleModule.UpdateRoleModule(moduleIdListNo, idNo);
+                ViewBag.Message = "Module updated successfully.";
+            }
+            catch
+            {
+                ViewBag.Message = "Update failed. Please try again later.";
+            }
             RoleModule rm = RoleModule.GetRoleModule(idNo);
             return View(rm);
         }

@@ -23,6 +23,7 @@
                 {
                     @Html.AntiForgeryToken()
                     <span class="text-success">@ViewBag.Message</span>
+                    <input type="hidden" name="roleId" value="@Model.Role.ID"/>
                     <div class="form-group row">
                         <ul class="list-group">
                             @if (Model.ModuleTree.Child.Count() > 0)
@@ -32,7 +33,7 @@
                         </ul>
                     </div>
                     <div class="form-group row">
-                        <input type="text" id="txtCheckList" name="txtCheckList" value="@Model.ModuleArray" class="form-control" />
+                        <input type="hidden" id="txtCheckList" name="txtCheckList" value="@Model.ModuleArray" class="form-control" />
                     </div>
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label"></label>
@@ -61,17 +62,26 @@
                 var strArray = [];
                 checkBoxes.each(function () {
                     if (this.checked) {
-                        //console.log('adding ' + $(this).attr("data-details"));
-                        strArray.push($(this).attr("data-details"));
+                        var dataDetail = $(this).attr("data-details");
+                        var dataParent = $(this).attr("data-parent");
+                        if (dataParent != '0') {
+                            //tick parent
+                            var wildcard = "[data-details*='" + dataParent + "']";
+
+                            //if parent is not ticked, tick parent.
+                            var parent = $(wildcard);
+                            //alert('parent found! ' + parent.length);
+                            if (!parent.checked) {
+                                parent.prop("checked", true);
+                                strArray.push(parent.attr("data-details"));
+                            }
+                        }
+                        strArray.push(dataDetail);
                     }
                 });
                 var strJoin = strArray.join(',');
                 txtCheckList.val(strJoin);
             });
-        }
-
-        function resizeTextArea() {
-            autosize(document.querySelectorAll('textarea'));
         }
     </script>
 }

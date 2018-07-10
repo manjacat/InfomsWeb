@@ -43,7 +43,7 @@ namespace InfomsWeb.Models
         {
             if (id > 0)
             {
-                List<ModuleRPS> modules = GetListFromDataTable().ToList();
+                List<ModuleRPS> modules = GetListByUsername().ToList();
                 ModuleRPS module = modules.Where(item => item.ID == id).FirstOrDefault();
                 return module;
             }
@@ -59,11 +59,19 @@ namespace InfomsWeb.Models
         }
 
         //used in creating ModuleTree
-        public static IEnumerable<ModuleRPS> GetListFromDataTable()
+        public static IEnumerable<ModuleRPS> GetListByUsername()
         {
             RoleRPS role = RoleRPS.GetRoleByUsername(HttpContext.Current.User.Identity.Name);
             ModuleDataContext db = new ModuleDataContext();
             List<ModuleRPS> tempList = db.GetListModules(role.ID);
+            return tempList;
+        }
+
+        //get all active modules regardless of user. for admin to edit modules.
+        public static IEnumerable<ModuleRPS> GetListAll()
+        {
+            ModuleDataContext db = new ModuleDataContext();
+            List<ModuleRPS> tempList = db.GetAllModules();
             return tempList;
         }
 
@@ -83,7 +91,7 @@ namespace InfomsWeb.Models
 
         public SelectList GetParentDropdown()
         {
-            List<ModuleRPS> moduleList = ModuleRPS.GetListFromDataTable().ToList();
+            List<ModuleRPS> moduleList = ModuleRPS.GetListByUsername().ToList();
             //remove self from list of dropdown 
             //(prevent selecting self as parent)
             moduleList = RemoveFromList(moduleList);
@@ -104,7 +112,7 @@ namespace InfomsWeb.Models
         public SelectList GetSortDropdown()
         {
             List<ModuleRPS> moduleList =
-                ModuleRPS.GetListFromDataTable()
+                ModuleRPS.GetListByUsername()
                 .Where
                 (item => item.ParentId == ParentId)
                 .ToList();
@@ -149,10 +157,10 @@ namespace InfomsWeb.Models
             return newSort;
         }
 
-        public int Update()
+        public int Update(int oldSortId)
         {
             ModuleDataContext db = new ModuleDataContext();
-            return db.UpdateModule(this);
+            return db.UpdateModule(this, oldSortId);
         }
 
         public int Create()

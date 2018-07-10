@@ -48,6 +48,7 @@
                             @Html.DropDownListFor(model => model.SortId, ViewBag.SortList as SelectList, "Select item",
                                   new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.SortId, "", new { @class = "text-danger" })
+                            <input type="hidden" name="oldSortId" value="@Model.SortId" />
                         </div>
                     </div>
                     <div class="form-group row">

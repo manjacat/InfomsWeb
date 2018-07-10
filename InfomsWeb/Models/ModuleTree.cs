@@ -73,7 +73,7 @@ namespace InfomsWeb.Models
 
         public static ModuleTree BuildTree()
         {
-            return BuildTree(ModuleRPS.GetListFromDataTable());
+            return BuildTree(ModuleRPS.GetListByUsername());
         }
     }
 }

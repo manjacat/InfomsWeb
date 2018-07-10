@@ -58,5 +58,33 @@ namespace InfomsWeb.DataContext
             }
             return roleModule;
         }
+
+        public int UpdateRoleModule(List<int> moduleIdList, int roleId)
+        {
+            string sqlString = string.Empty;
+
+            //delete existing role/module
+            sqlString = "DELETE FROM ROLEMODULES WHERE ROLE_ID = @RoleId; ";
+            if (moduleIdList.Count > 0)
+            {
+                //insert new RoleModule pair
+                sqlString += "INSERT INTO ROLEMODULES (ROLE_ID, MODULE_ID) VALUES ";
+                List<string> roleModules = new List<string>();
+                foreach (int moduleId in moduleIdList)
+                {
+                    string insertStr = string.Format("({0},{1})", roleId, moduleId);
+                    roleModules.Add(insertStr);
+                }
+                string strJoin = string.Join(",", roleModules.ToArray());
+                sqlString += strJoin;
+                sqlString += ";";
+            }
+
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@RoleId", roleId)
+            };
+            return ExecNonQuery(sqlString, param);
+        }
     }
 }

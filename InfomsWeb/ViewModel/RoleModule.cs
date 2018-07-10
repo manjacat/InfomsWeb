@@ -47,5 +47,11 @@ namespace InfomsWeb.ViewModel
             RoleModuleDataContext db = new RoleModuleDataContext();
             return db.GetRoleModule(roleId);
         }
+
+        public static int UpdateRoleModule(List<int> intList, int roleId)
+        {
+            RoleModuleDataContext db = new RoleModuleDataContext();
+            return db.UpdateRoleModule(intList, roleId);
+        }
     }
 }

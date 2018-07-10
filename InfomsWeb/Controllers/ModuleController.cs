@@ -108,12 +108,12 @@ namespace InfomsWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(ModuleRPS module)
+        public ActionResult Edit(ModuleRPS module, string oldSortId)
         {
             if (ModelState.IsValid)
             {
                 //Save changes
-                module.Update();
+                module.Update(Convert.ToInt32(oldSortId));
                 return RedirectToAction("Index", new { msg = string.Format("Updated {0} Successfully", module.Name) });
             }
             ViewBag.Message = "Failed to update Module";
