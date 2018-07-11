@@ -53,7 +53,7 @@ namespace InfomsWeb.Controllers
                 asgn.SaveUserRole();
                 return RedirectToAction("Index");
             }
-            return View(asgn);
+            return RedirectToAction("AssignRole");
         }
     }
 }

@@ -12,9 +12,11 @@ namespace InfomsWeb.Models
 {
     public class AssignUserRole
     {
+        [Required(ErrorMessage = "Please Select a User")]
         public int UserID { get; set; }
         [Display(Name = "User's Name: ")]
         public string Fullname { get; set; }
+        [Required(ErrorMessage = "Please Select a Role")]
         public int RoleID { get; set; }
         [Display(Name = "Assign Role: ")]
         public string RoleName { get; set; }
