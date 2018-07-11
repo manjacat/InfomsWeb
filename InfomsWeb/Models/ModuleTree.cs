@@ -14,7 +14,8 @@ namespace InfomsWeb.Models
 
         }
 
-        public ModuleTree(string name, Uri url, int Id, bool isAuth = true, int order = 1, int parentId = 0)
+        public ModuleTree(string name, Uri url, int Id, bool isAuth = true,
+            int order = 1, int parentId = 0, string iconCSS = "fa fa-laptop")
         {
             ID = Id;
             Name = name;
@@ -22,6 +23,14 @@ namespace InfomsWeb.Models
             IsChecked = isAuth; //if IsChecked, this module will be ticked (selected)
             Order = order;
             ParentId = parentId;
+            if (!string.IsNullOrEmpty(iconCSS))
+            {
+                IconCSS = iconCSS;
+            }
+            else
+            {
+                IconCSS = "fa fa-laptop"; //set default value of icon
+            }
         }
 
         private readonly SortedList<int, ModuleTree> childrens = new SortedList<int, ModuleTree>();
@@ -37,6 +46,8 @@ namespace InfomsWeb.Models
         public int ParentId { get; }
 
         public bool IsChecked { get; set; }
+
+        public string IconCSS { get; set; }
 
         public IEnumerable<ModuleTree> Child => childrens.Values;
 
@@ -55,7 +66,8 @@ namespace InfomsWeb.Models
                     v.ID,
                     v.IsAuthorized,
                     v.SortId,
-                    v.ParentId));
+                    v.ParentId,
+                    v.Icon));
 
             // build tree
             var root = new ModuleTree("root", new Uri("#", UriKind.Relative), 0);

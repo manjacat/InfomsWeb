@@ -36,14 +36,18 @@ namespace InfomsWeb.Models
         [Display(Name = "Parent")]
         public int ParentId { get; set; }
 
+        //only used in RoleModule ViewModel
         [Display(Name = "Authorized?")]
         public bool IsAuthorized { get; set; }
+
+        [Display(Name = "Icon")]
+        public string Icon { get; set; }
 
         public static ModuleRPS GetModule(int id)
         {
             if (id > 0)
             {
-                List<ModuleRPS> modules = GetListByUsername().ToList();
+                List<ModuleRPS> modules = GetListAll().ToList();
                 ModuleRPS module = modules.Where(item => item.ID == id).FirstOrDefault();
                 return module;
             }
@@ -63,6 +67,14 @@ namespace InfomsWeb.Models
         {
             RoleRPS role = RoleRPS.GetRoleByUsername(HttpContext.Current.User.Identity.Name);
             ModuleDataContext db = new ModuleDataContext();
+            //temporary fix <-- azrul, apesal getrolebyusername ni return null
+            if (role == null)
+            {
+                role = new RoleRPS
+                {
+                    ID = 1
+                };
+            }
             List<ModuleRPS> tempList = db.GetListModules(role.ID);
             return tempList;
         }
@@ -91,7 +103,7 @@ namespace InfomsWeb.Models
 
         public SelectList GetParentDropdown()
         {
-            List<ModuleRPS> moduleList = ModuleRPS.GetListByUsername().ToList();
+            List<ModuleRPS> moduleList = ModuleRPS.GetListAll().ToList();
             //remove self from list of dropdown 
             //(prevent selecting self as parent)
             moduleList = RemoveFromList(moduleList);
@@ -112,14 +124,14 @@ namespace InfomsWeb.Models
         public SelectList GetSortDropdown()
         {
             List<ModuleRPS> moduleList =
-                ModuleRPS.GetListByUsername()
+                ModuleRPS.GetListAll()
                 .Where
                 (item => item.ParentId == ParentId)
                 .ToList();
             List<SelectListItem> list = moduleList.Select(
                 x => new SelectListItem
                 {
-                    Text = Name == x.Name ? string.Format("Current ({0})", x.SortId) : string.Format("{0} ({1})", x.Name, x.SortId),
+                    Text = Name == x.Name ? string.Format("Current") : string.Format("{0}", x.Name),
                     Value = x.SortId.ToString(),
                     Selected = x.SortId == SortId ? true : false
                 }
@@ -129,7 +141,8 @@ namespace InfomsWeb.Models
             //tak payah letak bottom
             if (SortId == 0)
             {
-                list.Insert(list.Count, new SelectListItem { Text = string.Format("New ({0})", list.Count + 1), Value = (list.Count + 1).ToString() });
+                int maxVal = moduleList.Max(x => x.SortId) + 1;
+                list.Insert(list.Count, new SelectListItem { Text = string.Format("New"), Value = (maxVal).ToString() });
             }
 
             SelectList parentList = new SelectList(list, "Value", "Text");

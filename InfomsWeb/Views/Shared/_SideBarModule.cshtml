@@ -8,7 +8,7 @@
         {
             <a href="javascript:;" data-toggle="collapse"
                data-target='@string.Format("#element{0}",item.ID)' aria-expanded="true">
-                <i class="fa fa-th"></i>
+                <i class="@item.IconCSS"></i>
                 <span>@item.Name</span>
                 <i class="fa fa-fw fa-caret-down"></i>
             </a>
@@ -21,7 +21,7 @@
         else
         {
             <a href="@item.Url">
-                <i class="fa fa-laptop"></i>
+                <i class="@item.IconCSS"></i>
                 <span>@item.Name</span>
             </a>
         }

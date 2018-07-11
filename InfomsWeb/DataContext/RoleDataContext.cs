@@ -20,13 +20,7 @@ namespace InfomsWeb.DataContext
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    RoleRPS rle = new RoleRPS
-                    {
-                        ID = Convert.ToInt32(dr["ID"]),
-                        Name = dr["NAME"].ToString(),
-                        IsActive = Convert.ToBoolean(dr["ISACTIVE"]),
-                        IsDefault = Convert.ToBoolean(dr["ISDEFAULT"])
-                    };
+                    RoleRPS rle = BindDataRow(dr);
                     list.Add(rle);
                 }
             }
@@ -35,7 +29,7 @@ namespace InfomsWeb.DataContext
 
         public RoleRPS GetRole(int Id)
         {
-            string sqlString = "SELECT NAME, ISDEFAULT, ISACTIVE FROM [ROLES] WHERE ID = @RoleId";
+            string sqlString = "SELECT ID, NAME, ISDEFAULT, ISACTIVE FROM [ROLES] WHERE ID = @RoleId";
             SqlParameter[] param = new SqlParameter[]
             {
                 new SqlParameter("@RoleId", Id)
@@ -44,13 +38,7 @@ namespace InfomsWeb.DataContext
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                RoleRPS rle = new Models.RoleRPS
-                {
-                    ID = Id,
-                    Name = dr["NAME"].ToString(),
-                    IsActive = Convert.ToBoolean(dr["ISACTIVE"]),
-                    IsDefault = Convert.ToBoolean(dr["ISDEFAULT"])
-                };
+                RoleRPS rle = BindDataRow(dr);
                 return rle;
             }
             return null;
@@ -90,14 +78,7 @@ namespace InfomsWeb.DataContext
             if (dt.Rows.Count > 0)
             {
                 DataRow dr = dt.Rows[0];
-                RoleRPS rle = new Models.RoleRPS
-                {
-                    ID = Convert.ToInt32(dr["ID"]),
-                    Name = dr["NAME"].ToString(),
-                    IsActive = Convert.ToBoolean(dr["ISACTIVE"]),
-                    IsDefault = Convert.ToBoolean(dr["ISDEFAULT"])
-                };
-                return rle;
+                RoleRPS rle = BindDataRow(dr);
             }
             return null;
         }
@@ -136,6 +117,18 @@ namespace InfomsWeb.DataContext
                 return Convert.ToInt32(dt.Rows[0][0]);
             }
             return 0;
+        }
+
+        private RoleRPS BindDataRow(DataRow dr)
+        {
+            RoleRPS rle = new Models.RoleRPS
+            {
+                ID = Convert.ToInt32(dr["ID"]),
+                Name = dr["NAME"].ToString(),
+                IsActive = dr["ISACTIVE"] == DBNull.Value ? true : Convert.ToBoolean(dr["ISACTIVE"]),
+                IsDefault = dr["ISDEFAULT"] == DBNull.Value ? false : Convert.ToBoolean(dr["ISDEFAULT"])
+            };
+            return rle;
         }
     }
 }

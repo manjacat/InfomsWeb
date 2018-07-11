@@ -23,15 +23,7 @@ namespace InfomsWeb.DataContext
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    ModuleRPS m = new ModuleRPS
-                    {
-                        ID = Convert.ToInt32(dr["ID"]),
-                        Name = dr["Name"].ToString(),
-                        Description = dr["Description"].ToString(),
-                        LinkURL = dr["LinkURL"].ToString(),
-                        ParentId = Convert.ToInt32(dr["ParentId"]),
-                        SortId = Convert.ToInt32(dr["SortId"])
-                    };
+                    ModuleRPS m = BindDataRow(dr);
                     list.Add(m);
                 }
             }
@@ -54,15 +46,7 @@ namespace InfomsWeb.DataContext
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    ModuleRPS m = new ModuleRPS
-                    {
-                        ID = Convert.ToInt32(dr["ID"]),
-                        Name = dr["Name"].ToString(),
-                        Description = dr["Description"].ToString(),
-                        LinkURL = dr["LinkURL"].ToString(),
-                        ParentId = Convert.ToInt32(dr["ParentId"]),
-                        SortId = Convert.ToInt32(dr["SortId"])
-                    };
+                    ModuleRPS m = BindDataRow(dr);
                     list.Add(m);
                 }
             }
@@ -143,7 +127,7 @@ namespace InfomsWeb.DataContext
 
             //Belom Jadi Lagi
             sqlString = "update Modules set SORTID = SORTID + 1 WHERE PARENTID = @ParentId "
-                    + "AND SORTID > @SortId AND ID != @ModuleId";
+                    + "AND SORTID >= @SortId AND ID != @ModuleId";
 
             SqlParameter[] param1 = new SqlParameter[]
             {
@@ -164,6 +148,69 @@ namespace InfomsWeb.DataContext
             //    }
             //    ExecNonQuery(sqlString);
             //}
+        }
+
+        private ModuleRPS BindDataRow(DataRow dr)
+        {
+            ModuleRPS m = new ModuleRPS
+            {
+                ID = Convert.ToInt32(dr["ID"]),
+                Name = dr["Name"].ToString(),
+                Description = dr["Description"].ToString(),
+                LinkURL = dr["LinkURL"].ToString(),
+                ParentId = Convert.ToInt32(dr["ParentId"]),
+                SortId = Convert.ToInt32(dr["SortId"]),
+            };
+            //IsAuthorized is only used in RoleModule
+            try
+            {
+                m.IsAuthorized = Convert.ToInt32(dr["IsAuth"]) > 0 ? true : false;
+            }
+            catch
+            {
+                m.IsAuthorized = true;
+            }
+            m.Icon = GetRandomCSS();
+
+            return m;
+        }
+
+        private string GetRandomCSS()
+        {
+            Random r = new Random();
+            int randomNumber = r.Next(1, 5);
+            string cssString = string.Empty;
+            switch (randomNumber)
+            {
+                case (1):
+                    cssString = "fa fa-free-code-camp";
+                    break;
+                case (2):
+                    cssString = "fa fa-envelope-open";
+                    break;
+                case (3):
+                    cssString = "fa fa-window-restore";
+                    break;
+                case (4):
+                    cssString = "fa fa-trash-o";
+                    break;
+                case (5):
+                    cssString = "fa fa-battery-2";
+                    break;
+                case (6):
+                    cssString = "fa fa-bookmark-o";
+                    break;
+                case (7):
+                    cssString = "fa fa-cubes";
+                    break;
+                case (8):
+                    cssString = "fa fa-group";
+                    break;
+                case (9):
+                    cssString = "fa fa-paper-plane-o";
+                    break;
+            }
+            return cssString;
         }
     }
 }
