@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InfomsWeb.Utility;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -77,7 +78,20 @@ namespace InfomsWeb.Models
                 var node = nodes[result.ID];
                 var parentNode = result.ParentId == 0 ? root : nodes[result.ParentId];
 
-                parentNode.AddChild(node);
+                try
+                {
+                    parentNode.AddChild(node);
+                }
+                catch(ArgumentException ex)
+                {
+                    Logging lg = new Logging();
+                    lg.Error(ex, "Duplicate SortId is found in Module.");
+                }
+                catch(Exception ex)
+                {
+                    Logging lg = new Logging();
+                    lg.Error(ex, "Error in Module.");
+                }
             }
 
             return root;
