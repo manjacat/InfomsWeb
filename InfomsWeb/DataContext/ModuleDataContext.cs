@@ -88,20 +88,19 @@ namespace InfomsWeb.DataContext
                 module.Description = string.Empty;
             }
             string sqlString = "UPDATE MODULES SET NAME = @Name, DESCRIPTION = @Description,  "
-                + "LINKURL = @LinkUrl, PARENTID = @ParentId, SORTID = @SortId "
+                + "LINKURL = @LinkUrl, PARENTID = @ParentId, SORTID = @SortId, "
                 + "CODE = @Code, ICON = @Icon "
                 + "WHERE ID = @ModuleID ";
             SqlParameter[] param = new SqlParameter[]
             {
                 new SqlParameter("@Name", module.Name),
                 new SqlParameter("@Description", module.Description),
-                new SqlParameter("@LinkUrl", module.LinkURL),
+                new SqlParameter("@LinkUrl", string.IsNullOrEmpty(module.LinkURL) ? string.Empty : module.LinkURL ),
                 new SqlParameter("@ParentId", module.ParentId),
                 new SqlParameter("@SortId", module.SortId),
                 new SqlParameter("@Code", module.Code),
                 new SqlParameter("@Icon", module.Icon),
                 new SqlParameter("@ModuleID", module.ID)
-
             };
 
             ExecNonQuery(sqlString, param);

@@ -68,7 +68,7 @@ input[type=submit], input[type=button] {
         padding-left: 0.5em;
     }
 
-    .table a:hover {
+    .table a:hover, .moduleLink a:hover {
         text-decoration:none;
     }
  .card {
@@ -87,3 +87,7 @@ input[type=submit], input[type=button] {
     .table a:hover {
         text-decoration:none;
     }
+.moduleLink span{
+    margin-right:50px;
+    margin-left: 15px;
+}
