@@ -13,7 +13,7 @@ namespace InfomsWeb.DataContext
         //For Admin to edit Modules
         public List<ModuleRPS> GetAllModules()
         {
-            string sqlString = "SELECT b.ID, NAME, [DESCRIPTION], LINKURL, PARENTID, SORTID, ISDELETED "
+            string sqlString = "SELECT b.ID, NAME, [DESCRIPTION], LINKURL, PARENTID, SORTID, ISDELETED, CODE, ICON "
                 + "FROM [MODULES] b "
                 + "WHERE ISDELETED = 0; ";
             DataTable dt = QueryTable(sqlString);
@@ -32,7 +32,7 @@ namespace InfomsWeb.DataContext
 
         public List<ModuleRPS> GetListModules(int roleid)
         {
-            string sqlString = "SELECT b.ID, NAME, [DESCRIPTION], LINKURL, PARENTID, SORTID, ISDELETED "
+            string sqlString = "SELECT b.ID, NAME, [DESCRIPTION], LINKURL, PARENTID, SORTID, ISDELETED, CODE, ICON  "
                 + "FROM [dbo].[ROLEMODULES] a JOIN [MODULES] b ON a.MODULE_ID = b.ID "
                 + "WHERE a.ROLE_ID = @Role_id; ";
             SqlParameter[] param = new SqlParameter[]
@@ -59,15 +59,18 @@ namespace InfomsWeb.DataContext
             {
                 module.Description = string.Empty;
             }
-            string sqlString = "INSERT INTO MODULES (NAME, [DESCRIPTION], LINKURL, PARENTID, SORTID, ISDELETED) "
-                + "VALUES(@Name, @Description, @LinkUrl, @ParentId, @SortId, 0); ";
+            string sqlString = "INSERT INTO MODULES "
+                + " (NAME, [DESCRIPTION], LINKURL, PARENTID, SORTID, ISDELETED, CODE, ICON ) "
+                + "VALUES(@Name, @Description, @LinkUrl, @ParentId, @SortId, 0, @Code, @Icon); ";
             SqlParameter[] param = new SqlParameter[]
             {
                 new SqlParameter("@Name", module.Name),
                 new SqlParameter("@Description", module.Description),
                 new SqlParameter("@LinkUrl", module.LinkURL),
                 new SqlParameter("@ParentId", module.ParentId),
-                new SqlParameter("@SortId", module.SortId)
+                new SqlParameter("@SortId", module.SortId),
+                new SqlParameter("@Code", module.Code),
+                new SqlParameter("@Icon", module.Icon)
             };
 
             ExecNonQuery(sqlString, param);
@@ -86,6 +89,7 @@ namespace InfomsWeb.DataContext
             }
             string sqlString = "UPDATE MODULES SET NAME = @Name, DESCRIPTION = @Description,  "
                 + "LINKURL = @LinkUrl, PARENTID = @ParentId, SORTID = @SortId "
+                + "CODE = @Code, ICON = @Icon "
                 + "WHERE ID = @ModuleID ";
             SqlParameter[] param = new SqlParameter[]
             {
@@ -94,7 +98,10 @@ namespace InfomsWeb.DataContext
                 new SqlParameter("@LinkUrl", module.LinkURL),
                 new SqlParameter("@ParentId", module.ParentId),
                 new SqlParameter("@SortId", module.SortId),
+                new SqlParameter("@Code", module.Code),
+                new SqlParameter("@Icon", module.Icon),
                 new SqlParameter("@ModuleID", module.ID)
+
             };
 
             ExecNonQuery(sqlString, param);
@@ -111,19 +118,6 @@ namespace InfomsWeb.DataContext
             {
                 oldSortId = 999;
             }
-            //get list of SortId
-            //if (module.SortId < oldSortId)
-            //{
-            //    //naik
-            //    sqlString = "update Modules set SORTID = SORTID + 1 WHERE PARENTID = @ParentId "
-            //        + "AND SORTID > 0 AND SORTID <= @SortId AND ID != @ModuleId";
-            //}
-            //else
-            //{
-            //    //turun
-            //    sqlString = "update Modules set SORTID = SORTID - 1 WHERE PARENTID = @ParentId "
-            //        + "AND SORTID > @SortId AND ID != @ModuleId";
-            //}
 
             //Belom Jadi Lagi
             sqlString = "update Modules set SORTID = SORTID + 1 WHERE PARENTID = @ParentId "
@@ -136,18 +130,6 @@ namespace InfomsWeb.DataContext
                 new SqlParameter("@ModuleId", module.ID)
             };
             return ExecNonQuery(sqlString, param1);
-
-            //List<ModuleRPS> list = GetModuleByParentId(module.ParentId);
-            //if (list.Count > 0)
-            //{
-            //    int counter = 0;
-            //    foreach (ModuleRPS m in list)
-            //    {
-            //        counter++;
-            //        sqlString += string.Format("update MODULES Set SORTID = {0} WHERE ID = {1}; ", counter, m.ID);
-            //    }
-            //    ExecNonQuery(sqlString);
-            //}
         }
 
         private ModuleRPS BindDataRow(DataRow dr)
@@ -160,6 +142,8 @@ namespace InfomsWeb.DataContext
                 LinkURL = dr["LinkURL"].ToString(),
                 ParentId = Convert.ToInt32(dr["ParentId"]),
                 SortId = Convert.ToInt32(dr["SortId"]),
+                Code = dr["CODE"].ToString(),
+                Icon = dr["ICON"].ToString()
             };
             //IsAuthorized is only used in RoleModule
             try
@@ -170,7 +154,7 @@ namespace InfomsWeb.DataContext
             {
                 m.IsAuthorized = true;
             }
-            m.Icon = GetRandomCSS();
+            //m.Icon = GetRandomCSS();
 
             return m;
         }

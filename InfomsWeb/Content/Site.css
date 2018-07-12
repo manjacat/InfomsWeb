@@ -67,3 +67,17 @@ input[type=submit], input[type=button] {
         content: '\00a0>';
         padding-left: 0.5em;
     }
+
+ .card {
+     border-top: 3px solid;
+     border-top-color: red;
+ }
+
+ .card-body{
+     padding-right: 2rem;
+     padding-left: 2rem;
+ }
+
+.col-form-label{
+         font-weight: 600;
+ }

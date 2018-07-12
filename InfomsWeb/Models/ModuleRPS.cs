@@ -40,8 +40,13 @@ namespace InfomsWeb.Models
         [Display(Name = "Authorized?")]
         public bool IsAuthorized { get; set; }
 
+        [Required]
         [Display(Name = "Icon")]
         public string Icon { get; set; }
+
+        [Required]
+        [Display(Name = "Module Code")]
+        public string Code { get; set; }
 
         public static ModuleRPS GetModule(int id)
         {
