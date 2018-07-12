@@ -68,6 +68,9 @@ input[type=submit], input[type=button] {
         padding-left: 0.5em;
     }
 
+    .table a:hover {
+        text-decoration:none;
+    }
  .card {
      border-top: 3px solid;
      border-top-color: red;

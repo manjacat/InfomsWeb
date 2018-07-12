@@ -10,7 +10,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table id="tblUserList" class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.StaffID)
@@ -57,7 +57,12 @@
             @Html.ActionLink(" ", "Edit", "User", new { id = item.ID }, new { @class = "fa fa-2x fa-edit" })
             @Html.ActionLink(" ", "Details", "User", new { id = item.ID }, new { @class = "fa fa-2x fa-info-circle" })
             @Html.ActionLink(" ", "AssignRole", "User", new { id = item.ID } , new { @class = "fa fa-2x fa-cog" })
-            @Html.ActionLink(" ", "Delete", "User", new { id = item.ID }, new { @class = "fa fa-2x fa-trash" })
+            
+            @{if (!item.IsDefault)
+                {
+                    @Html.ActionLink(" ", "Delete", "User", new { id = item.ID }, new { @class = "fa fa-2x fa-trash" })
+                }
+            }
         </td>
     </tr>
 }

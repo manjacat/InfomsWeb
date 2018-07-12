@@ -79,6 +79,7 @@ namespace InfomsWeb.DataContext
             {
                 DataRow dr = dt.Rows[0];
                 RoleRPS rle = BindDataRow(dr);
+                return rle;
             }
             return null;
         }
